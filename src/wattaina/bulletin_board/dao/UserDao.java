@@ -14,8 +14,16 @@ import wattaina.bulletin_board.exception.SQLRuntimeException;
 
 public class UserDao {
 
-	public User getUser(Connection connection, String accountOrEmail,
-			String password) {
+	/**
+	 * ログインするときの参照
+	 * @param connection
+	 * @param login_id
+	 * @param password
+	 * @return
+	 */
+	public User getUser(Connection connection, String login_id , String password) {
+
+		// ログインするとき既存のIDと被っていないか確認
 
 		PreparedStatement ps = null;
 		try {
@@ -23,7 +31,7 @@ public class UserDao {
 
 			ps = connection.prepareStatement(sql);
 
-			ps.setString(1, accountOrEmail);
+			ps.setString(1, login_id);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			List<User> userList = toUserList(rs);
@@ -32,6 +40,7 @@ public class UserDao {
 				return null;
 			} else if (2 <= userList.size()) {
 				throw new IllegalStateException("2 <= userList.size()");
+
 			} else {
 				return userList.get(0);
 			}
@@ -48,23 +57,21 @@ public class UserDao {
 			while (rs.next()) {
 
 				int id = rs.getInt("id");
-				int login_id = rs.getInt("login_id");
+				String login_id = rs.getString("login_id");
 				String password = rs.getString("password");
 				String name = rs.getString("name");
 				int branch_id = rs.getInt("branch_id");
 				int position_id = rs.getInt("position_id");
-				int is_stopped = rs.getInt("is_stopped");
 
 
 				User user = new User();
 
 				user.setId(id);
-				user.setLogin_id(login_id);
+				user.setLoginId(login_id);
 				user.setPassword(password);
 				user.setName(name);
 				user.setBranch_id(branch_id);
 				user.setPositionId(position_id);
-				user.setIsStopped(is_stopped);
 
 				ret.add(user);
 			}
@@ -80,34 +87,33 @@ public class UserDao {
 		PreparedStatement ps = null;
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO user ( ");
-			sql.append("id");
-			sql.append(", login_id");
+			sql.append("INSERT INTO users ( ");
+			sql.append(" login_id");
 			sql.append(", password");
 			sql.append(", name");
 			sql.append(", branch_id");
 			sql.append(", position_id");
-			sql.append(", is_stopped");
 			sql.append(") VALUES (");
-			sql.append("null "); // id
-			sql.append(", ?"); // login_id
+			sql.append(" ?"); // login_id
 			sql.append(", ?"); // password
 			sql.append(", ?"); // name
 			sql.append(", ?"); // branch_id
 			sql.append(", ?"); // position_id
-			sql.append(", ?"); // is_stopped
 			sql.append(")");
 
 			ps = connection.prepareStatement(sql.toString());
 
-			ps.setInt(1, user.getLoginId());
+			ps.setString(1, user.getLoginId());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getName());
 			ps.setInt(4, user.getBranchId());
 			ps.setInt(5, user.getPositionId());
-			ps.setInt(6, user.getIsStopped());
 
 
+
+			System.out.println(ps.toString());
+
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new SQLRuntimeException(e);
 		} finally {
@@ -122,6 +128,37 @@ public class UserDao {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+
+
+	public User getUser(Connection connection, String loginId ) {
+		// 新規登録するとき既存のIDと被っていないか確認
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE login_id = ?";
+
+			ps = connection.prepareStatement(sql);
+
+			ps.setString(1, loginId);
+			ResultSet rs = ps.executeQuery();
+			List<User> userList = toUserList(rs);
+
+			if (userList.isEmpty() == true) {
+				return null;
+			} else if (2 <= userList.size()) {
+				throw new IllegalStateException("2 <= userList.size()");
+
+			} else {
+				return userList.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 }
+
+
 
 //UPDATEの処理がこの後入ると思われる

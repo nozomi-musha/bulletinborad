@@ -8,21 +8,29 @@ public class  Message implements Serializable {
 
 
 	private int id;
+	private String loginId;
 	private String title;
 	private String text;
 	private String category;
-	private int branchId;
-	private int positionId;
 	private Date createdAt;
 	private int userId;
+
 
 
 	public int getId() {
 		return id;
 	}
 
-	public void setLogin_id(int id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public String getTitle() {
@@ -47,22 +55,6 @@ public class  Message implements Serializable {
 
 	public void setCategory(String category) {
 		this.category = category;
-	}
-
-	public int getBranchId() {
-		return branchId;
-	}
-
-	public void setBranchId(int branchId) {
-		this.branchId = branchId;
-	}
-
-	public int getPositionId() {
-		return positionId;
-	}
-
-	public void setPosionId(int posionId) {
-		this.positionId = posionId;
 	}
 
 	public Date getCreatedAt() {

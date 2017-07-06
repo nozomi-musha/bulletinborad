@@ -11,7 +11,7 @@ import wattaina.bulletin_board.utils.CipherUtil;
 
 public class LoginService {
 
-	public User login(String accountOrEmail, String password) {
+	public User login(String loginId, String password) {
 
 		Connection connection = null;
 		try {
@@ -20,7 +20,7 @@ public class LoginService {
 			UserDao userDao = new UserDao();
 			String encPassword = CipherUtil.encrypt(password);
 			User user = userDao
-					.getUser(connection, accountOrEmail, encPassword);
+					.getUser(connection, loginId, encPassword);
 
 			commit(connection);
 

@@ -5,13 +5,16 @@ import java.io.Serializable;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+
 	private int id;
-	private int loginId;
+	private String loginId;
 	private String password;
 	private String name;
 	private int branchId;
 	private int positionId;
 	private int isStopped;
+
+
 
 	public int getId() {
 		return id;
@@ -21,12 +24,11 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-
-	public int getLoginId() {
+	public String getLoginId() {
 		return loginId;
 	}
 
-	public void setLogin_id(int loginId) {
+	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
 
@@ -58,8 +60,8 @@ public class User implements Serializable {
 		return positionId;
 	}
 
-	public void setPositionId(int positonId) {
-		this.positionId = positonId;
+	public void setPositionId(int positionId) {
+		this.positionId = positionId;
 	}
 
 	public int getIsStopped() {
