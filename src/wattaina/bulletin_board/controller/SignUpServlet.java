@@ -36,15 +36,10 @@ public class SignUpServlet extends HttpServlet {
 		//DBから支店名のデータを呼び出すためにリスト化したもの　セレクトボックス
 
 		List<Branch> branches = new BranchService().getBranches();
-		request.setAttribute("branhces", branches);
-
-		//System.out.println(branches.get(0).getName());
-
+		request.setAttribute("branches", branches);
 
 		List<Position> positions = new PositionService().getPositions();
 		request.setAttribute("positions", positions);
-
-		//System.out.println(positions.get(0).getName());
 
 
 		request.getRequestDispatcher("signup.jsp").forward(request, response);

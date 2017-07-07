@@ -8,7 +8,6 @@ public class  Message implements Serializable {
 
 
 	private int id;
-	private String loginId;
 	private String title;
 	private String text;
 	private String category;
@@ -23,14 +22,6 @@ public class  Message implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
 	}
 
 	public String getTitle() {

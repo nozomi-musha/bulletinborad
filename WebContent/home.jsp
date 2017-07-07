@@ -17,7 +17,7 @@
 			<div class="errorMessages">
 				<ul>
 					<c:forEach items="${errorMessages}" var="message">
-						<li><c:out value="${message}" />
+						<li><c:out value="${message}" /></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -26,34 +26,53 @@
 
 
 
-		<a href="">戻る</a> <a href="">新規投稿</a> <a href="">ユーザー管理</a> <a href="">ログアウト</a>
-	<br>
+		<a href="">戻る</a> <a href="message">新規投稿</a> <a href="userlist">ユーザー管理</a> <a href="">ログイン</a>
+		<a href="">ログアウト</a> <br>
 
-		<c:forEach items="${userMessage}" var="userMessage">
-			<c:out value="●${userMessage.title}" />
-			<c:out value="●${userMessage.category}" /><br>
-			<c:out value="${userMessage.text}" /><br>
-			<c:out value="${userMessage.name}" /><br>
-		<c:out value="${userMessage.createdAt}" />
-</c:forEach>
-
-
-
-		<div class="comment-form">
-
-				<form action="newMessage" method="post">
-
-	<label for = "comment">コメント</label>
-	<textarea name="message" cols="100" rows="5" class="tweet-box"><c:out value="${comment.text}" /></textarea>
+		<c:forEach items="${userMessage}" var="message">
+			<c:out value="[${message.title}]" />
+			<c:out value="${message.category}" />
+			<br>
+			<c:out value="${message.text}" />
+			<br>
+			<c:out value="${message.name}" />
+			<br>
+			<c:out value="${message.createdAt}" />
 
 
+			<c:forEach items="${userComments}" var="comment">
+				<c:if test="${comment.messageId == message.messageId}">
+					<c:out value="${comment.text}" />
+					<c:out value="${comment.userName}" />
+					<br>
+					<c:out value="${comment.createdAt}" />
+					<br>
+				</c:if>
+			</c:forEach>
 
-					500字以内でコメントを入力<br />
+
+			<div class="comment-form">
+
+				<form action="comment" method="post">
+
+					<label for="comment">コメント</label> <input name="comment"
+						value="${comments.text}" id="comment" /> 500字以内でコメントを入力<br />
+
+
+
+
+					<!--裏でmessageIdの取得  -->
+
+					<INPUT type="hidden" name="messageId" value="${message.messageId}">
 
 
 
 					<br /> <input type="submit" value="投稿">
+
 				</form>
 
-		</div>
+			</div>
+		</c:forEach>
 	</div>
+</body>
+</html>

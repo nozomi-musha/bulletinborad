@@ -82,6 +82,8 @@ public class UserDao {
 
 	}
 
+
+
 	public void insert(Connection connection, User user) {
 
 		PreparedStatement ps = null;
@@ -120,14 +122,7 @@ public class UserDao {
 			close(ps);
 		}
 	}
-	public User getUser(Connection connection, int userId) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-	public void update(Connection connection, User user) {
-		// TODO 自動生成されたメソッド・スタブ
 
-	}
 
 
 	public User getUser(Connection connection, String loginId ) {
@@ -157,8 +152,107 @@ public class UserDao {
 			close(ps);
 		}
 	}
+
+
+
+	public List<User> getUsers(Connection connection) {
+
+		// ログインするとき既存のIDと被っていないか確認
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users";
+
+			ps = connection.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			List<User> userList = toUserList(rs);
+
+			if (userList.isEmpty() == true) {
+				return null;
+			} else {
+				return userList;
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+
+
+
+
+
+	public User getUser(Connection connection, int id) {
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE id = ?";
+
+			ps = connection.prepareStatement(sql);
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			List<User> userList = toUserList(rs);
+
+			if (userList.isEmpty() == true) {
+				return null;
+			} else if (2 <= userList.size()) {
+				throw new IllegalStateException("2 <= userList.size()");
+
+			} else {
+				return userList.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+
+
+	public void update(com.mysql.jdbc.Connection connection, User user) {
+
+		PreparedStatement ps = null;
+
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("update users set");
+			sql.append(" login_id = ?");
+			sql.append(", name= ?");
+			sql.append(", branch_id = ?");
+			sql.append(", position_id = ?");
+			if(user.getPassword() != null) {
+				sql.append(", password = ?");
+			}
+
+			sql.append(" where id = ?");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ps.setString (1, user.getLoginId());
+			ps.setString (2, user.getName());
+			ps.setInt(3, user.getBranchId());
+			ps.setInt(4, user.getPositionId());
+			if(user.getPassword() == null) {
+				ps.setString (5, user.getPassword());
+				ps.setInt(6, user.getId());
+			} else {
+				ps.setInt(5, user.getId());
+			}
+
+
+			ps.executeUpdate();
+
+
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+
+	}
 }
-
-
-
-//UPDATEの処理がこの後入ると思われる

@@ -44,7 +44,7 @@
 
    <select name="branch_id">
 <option value="" >支店</option>
-	   	<c:forEach items="${branhces}" var="branch">>
+	   	<c:forEach items="${branches}" var="branch">>
 	   		<option value="${branch.id }" ><c:out value="${branch.name}" /></option>
 	   	</c:forEach>
   </select>
