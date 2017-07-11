@@ -65,7 +65,7 @@ public class SignUpServlet extends HttpServlet {
 			user.setLoginId(request.getParameter("login_id"));
 			user.setName(request.getParameter("name"));
 			user.setPassword(request.getParameter("password"));
-			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
+			user.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
 			user.setPositionId(Integer.parseInt(request.getParameter("position_id")));
 
 			new UserService().register(user);
@@ -92,27 +92,29 @@ public class SignUpServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(login_id) == true) {
 			messages.add("ログインIDを入力してください");
-
 		}
+
+
 		if (StringUtils.isEmpty(name) == true) {
-			messages.add("名前を入力してください");
+				messages.add("名前を入力してください");
+			}
 
-
-		}
 		if (StringUtils.isEmpty(password) == true) {
 			messages.add("パスワードを入力してください");
-
 		}
+
+//		if (str.matches("^[-@+*;:#$%&\\w]+$")){
+//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+//		}
 
 		if (StringUtils.isEmpty(confirmation) == true) {
 			messages.add("パスワードの確認を入力してください");
 		}
 
-			if (!(password == confirmation) == true) {
+//		if (!(password == confirmation) == true) {
+//			messages.add("確認パスワードが一致しません");
 
-				messages.add("確認パスワードが一致しません");
-
-		}
+//		}
 
 		if (StringUtils.isEmpty(branch_id) == true) {
 			messages.add("支店名を選択してください");
@@ -125,17 +127,6 @@ public class SignUpServlet extends HttpServlet {
 
 		}
 
-		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
-
-
-
-
-
-		//パスワードの再確認　最初に入力したものと等しいか
-
-
-
-
 		//既存のIDと被っていたら登録できない
 
 		UserService userService = new UserService();
@@ -145,18 +136,10 @@ public class SignUpServlet extends HttpServlet {
 			messages.add("既に登録されているIDです");
 		}
 
-
-
-
 		if (messages.size() == 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	//支店名選択
-
-
-
 }

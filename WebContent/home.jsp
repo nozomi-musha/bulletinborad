@@ -26,8 +26,8 @@
 
 
 
-		<a href="">戻る</a> <a href="message">新規投稿</a> <a href="userlist">ユーザー管理</a> <a href="">ログイン</a>
-		<a href="">ログアウト</a> <br>
+		<a href="">戻る</a> <a href="message">新規投稿</a> <a href="userlist">ユーザー管理</a> <a href="login">ログイン</a>
+		<a href="logout">ログアウト</a> <br>
 
 		<c:forEach items="${userMessage}" var="message">
 			<c:out value="[${message.title}]" />

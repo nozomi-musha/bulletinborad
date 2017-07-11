@@ -53,7 +53,7 @@ public class User implements Serializable {
 		return branchId;
 	}
 
-	public void setBranch_id(int branchId) {
+	public void setBranchId(int branchId) {
 		this.branchId = branchId;
 	}
 	public int getPositionId() {

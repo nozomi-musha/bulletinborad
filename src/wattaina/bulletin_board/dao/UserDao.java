@@ -62,7 +62,7 @@ public class UserDao {
 				String name = rs.getString("name");
 				int branch_id = rs.getInt("branch_id");
 				int position_id = rs.getInt("position_id");
-
+				int is_stopped = rs.getInt("is_stopped");
 
 				User user = new User();
 
@@ -70,8 +70,9 @@ public class UserDao {
 				user.setLoginId(login_id);
 				user.setPassword(password);
 				user.setName(name);
-				user.setBranch_id(branch_id);
+				user.setBranchId(branch_id);
 				user.setPositionId(position_id);
+				user.setIsStopped(is_stopped);
 
 				ret.add(user);
 			}
@@ -214,7 +215,7 @@ public class UserDao {
 
 
 
-	public void update(com.mysql.jdbc.Connection connection, User user) {
+	public void update(Connection connection, User user) {
 
 		PreparedStatement ps = null;
 
@@ -225,7 +226,7 @@ public class UserDao {
 			sql.append(", name= ?");
 			sql.append(", branch_id = ?");
 			sql.append(", position_id = ?");
-			if(user.getPassword() != null) {
+			if(!user.getPassword().isEmpty()) {
 				sql.append(", password = ?");
 			}
 
@@ -237,7 +238,7 @@ public class UserDao {
 			ps.setString (2, user.getName());
 			ps.setInt(3, user.getBranchId());
 			ps.setInt(4, user.getPositionId());
-			if(user.getPassword() == null) {
+			if(!user.getPassword().isEmpty()) {
 				ps.setString (5, user.getPassword());
 				ps.setInt(6, user.getId());
 			} else {
@@ -247,6 +248,32 @@ public class UserDao {
 
 			ps.executeUpdate();
 
+
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+
+	}
+
+
+	public void isStopped(Connection connection, User user) {
+
+		PreparedStatement ps = null;
+
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("update users set");
+			sql.append(" is_stopped= ?");
+			sql.append(" where id = ?");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ps.setInt (1, user.getIsStopped());
+			ps.setInt (2, user.getId());
+
+			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new SQLRuntimeException(e);

@@ -114,6 +114,7 @@ public class UserService {
 
 	//ユーザー情報の編集
 
+
 	public void update(User user) {
 
 		Connection connection = null;
@@ -127,7 +128,7 @@ public class UserService {
 			}
 
 			UserDao userDao = new UserDao();
-			userDao.insert(connection, user);
+			userDao.update(connection, user);
 
 			commit(connection);
 		} catch (RuntimeException e) {
@@ -141,4 +142,32 @@ public class UserService {
 		}
 	}
 
+	//isStoppedの編集
+
+	public void isStopped(User user) {
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+
+
+			if(user.getPassword() != null){
+				String encPassword = CipherUtil.encrypt(user.getPassword());
+				user.setPassword(encPassword);
+			}
+
+			UserDao userDao = new UserDao();
+			userDao.isStopped(connection, user);
+
+			commit(connection);
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
 }
