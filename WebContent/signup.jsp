@@ -25,8 +25,8 @@
 
 <form action="signup" method="post"><br />
 
-	<label for = "login_id">ID</label>
-	<input name = "login_id" value = "${login_id}" id ="login_id"/><br />
+	<label for = "loginId">ログインID</label>
+	<input name = "loginId" value = "${user.loginId}" id ="loginId"/><br />
 
 
 	<label for = "password">パスワード</label>
@@ -38,23 +38,29 @@
 <!--   passwordと入力されたconfirmationを比較して合っていなかったらエラー -->
 
 	<label for="name">名前</label>
-	<input name="name" id="name"/> <br />
+	<input name="name" value = "${user.name}" id="name"/> <br />
 
 
 
-   <select name="branch_id">
-<option value="" >支店</option>
-	   	<c:forEach items="${branches}" var="branch">>
-	   		<option value="${branch.id }" ><c:out value="${branch.name}" /></option>
-	   	</c:forEach>
-  </select>
+	<select name="branchId">
+			<optgroup label="支店を選択"></optgroup>
+			<c:forEach items="${branches}" var="branch">
+				<option value="${branch.id }"
+					<c:if test="${user.branchId==branch.id}">selected</c:if>><c:out
+						value="${branch.name}" /></option>
+			</c:forEach>
+		</select>
 
-  <select name="position_id">
-    <optgroup label="役職を選択"></optgroup>
-	   	<c:forEach items="${positions}" var="position">
-	   		<option value="${position.id}" ><c:out value="${position.name}" /></option>
-	   	</c:forEach>
-  </select>
+
+		<select name="positionId">
+			<optgroup label="役職を選択"></optgroup>
+			<c:forEach items="${positions}" var="position">
+				<option value="${position.id }"
+					<c:if test="${user.positionId==position.id}">selected</c:if>>
+					<c:out value="${position.name}" /></option>
+			</c:forEach>
+		</select> <br />
+
 
 
 <br>

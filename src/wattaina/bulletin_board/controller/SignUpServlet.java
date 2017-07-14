@@ -56,17 +56,14 @@ public class SignUpServlet extends HttpServlet {
 
 
 		HttpSession session = request.getSession();
+		User user = new User();
+		user.setLoginId(request.getParameter("loginId"));
+		user.setName(request.getParameter("name"));
+		user.setPassword(request.getParameter("password"));
+		user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
+		user.setPositionId(Integer.parseInt(request.getParameter("positionId")));
+
 		if (isValid(request, messages) == true) {
-
-
-			System.out.println(request.getParameter("name"));
-
-			User user = new User();
-			user.setLoginId(request.getParameter("login_id"));
-			user.setName(request.getParameter("name"));
-			user.setPassword(request.getParameter("password"));
-			user.setBranchId(Integer.parseInt(request.getParameter("branch_id")));
-			user.setPositionId(Integer.parseInt(request.getParameter("position_id")));
 
 			new UserService().register(user);
 
@@ -75,7 +72,16 @@ public class SignUpServlet extends HttpServlet {
 		} else {
 			//			String s = request.getParameter("name");
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("signup");
+
+			request.setAttribute("user", user);
+
+			List<Branch> branches = new BranchService().getBranches();
+			request.setAttribute("branches", branches);
+
+			List<Position> positions = new PositionService().getPositions();
+			request.setAttribute("positions", positions);
+
+			request.getRequestDispatcher("signup.jsp").forward(request, response);
 			//			request.setAttribute("user", user);
 			//			request.getRequestDispatcher("signup.jsp").forward(request, response);
 
@@ -83,57 +89,59 @@ public class SignUpServlet extends HttpServlet {
 	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
-		String login_id = request.getParameter("login_id");
+		String loginId = request.getParameter("loginId");
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String confirmation = request.getParameter("confirmation");
-		String branch_id = request.getParameter("branch_id");
-		String position_id = request.getParameter("position_id");
+		String branchId = request.getParameter("branchId");
+		String positionId = request.getParameter("positionId");
 
-		if (StringUtils.isEmpty(login_id) == true) {
+
+		if (StringUtils.isEmpty(loginId) == true) {
 			messages.add("ログインIDを入力してください");
 		}
 
-
 		if (StringUtils.isEmpty(name) == true) {
-				messages.add("名前を入力してください");
-			}
-
-		if (StringUtils.isEmpty(password) == true) {
-			messages.add("パスワードを入力してください");
+			messages.add("名前を入力してください");
 		}
 
-//		if (str.matches("^[-@+*;:#$%&\\w]+$")){
-//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
-//		}
+		//		if (StringUtils.isEmpty(password) == true) {
+		//			messages.add("パスワードを入力してください");
+		//		} else if (!(password.matches("^[a-zA-Z0-9]+${6,20}"))) {
+		//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+		//
+		//		} else if (!(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+$"))){
+		//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+		//		}
 
 		if (StringUtils.isEmpty(confirmation) == true) {
 			messages.add("パスワードの確認を入力してください");
+		} else if (!(password.equals(confirmation))) {
+			messages.add("確認パスワードが一致しません");
 		}
 
-//		if (!(password == confirmation) == true) {
-//			messages.add("確認パスワードが一致しません");
-
-//		}
-
-		if (StringUtils.isEmpty(branch_id) == true) {
+		if (StringUtils.isEmpty(branchId) == true) {
 			messages.add("支店名を選択してください");
-
 		}
 
-
-		if (StringUtils.isEmpty(position_id) == true) {
+		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
-
 		}
+
+		// branchとpositionありえない組み合わせは登録できない
+
+		if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+			messages.add("ありえない組み合わせです");
+		}
+
 
 		//既存のIDと被っていたら登録できない
 
 		UserService userService = new UserService();
-		User  user = userService.getUser(login_id);
+		User  user = userService.getUser(loginId);
 
 		if (user != null) {
-			messages.add("既に登録されているIDです");
+			messages.add("既存のIDは使用できません");
 		}
 
 		if (messages.size() == 0) {

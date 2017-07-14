@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import wattaina.bulletin_board.beans.Comment;
 import wattaina.bulletin_board.beans.User;
 import wattaina.bulletin_board.exception.SQLRuntimeException;
 
@@ -282,4 +283,27 @@ public class UserDao {
 		}
 
 	}
+	public void dropComment(Connection connection, Comment id) {
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" DELETE FROM comments ");
+
+			sql.append(" where id = ? ");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ps.setInt(1, id.getId());
+
+//			System.out.println(ps.toString());
+
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
 }
