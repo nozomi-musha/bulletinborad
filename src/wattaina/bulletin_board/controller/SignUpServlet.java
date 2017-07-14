@@ -33,7 +33,7 @@ public class SignUpServlet extends HttpServlet {
 
 
 
-		//DBから支店名のデータを呼び出すためにリスト化したもの　セレクトボックス
+		//DBから支店名のデータを呼び出すためにリスト化したもの セレクトボックス
 
 		List<Branch> branches = new BranchService().getBranches();
 		request.setAttribute("branches", branches);
@@ -99,20 +99,30 @@ public class SignUpServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(loginId) == true) {
 			messages.add("ログインIDを入力してください");
+
+		} else if (!(loginId.matches("[a-zA-Z0-9]{6,20}"))) {
+			messages.add("ログインIDは半角英数6文字以上20文字以下で入力してください");
 		}
+
 
 		if (StringUtils.isEmpty(name) == true) {
 			messages.add("名前を入力してください");
+
+		} else if (!(name.length() <= 10)) {
+			messages.add("名前は10文字以下で入力してください。");
 		}
 
-		//		if (StringUtils.isEmpty(password) == true) {
-		//			messages.add("パスワードを入力してください");
-		//		} else if (!(password.matches("^[a-zA-Z0-9]+${6,20}"))) {
-		//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
-		//
-		//		} else if (!(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+$"))){
-		//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
-		//		}
+
+		if (StringUtils.isEmpty(password) == true) {
+			messages.add("パスワードを入力してください");
+		}
+//		else if (!(password.matches("^[a-zA-Z0-9]+${6,20}"))) {
+//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+
+//		} else if (!(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+$"))){
+//			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+//		}
+
 
 		if (StringUtils.isEmpty(confirmation) == true) {
 			messages.add("パスワードの確認を入力してください");
@@ -120,9 +130,11 @@ public class SignUpServlet extends HttpServlet {
 			messages.add("確認パスワードが一致しません");
 		}
 
+
 		if (StringUtils.isEmpty(branchId) == true) {
 			messages.add("支店名を選択してください");
 		}
+
 
 		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
@@ -130,10 +142,14 @@ public class SignUpServlet extends HttpServlet {
 
 		// branchとpositionありえない組み合わせは登録できない
 
-		if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+		if ((!branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
 			messages.add("ありえない組み合わせです");
 		}
 
+		if  (branchId.equals("1") && (!(positionId.equals("1") || positionId.equals("2")))) {
+			messages.add("ありえない組み合わせです");
+
+		}
 
 		//既存のIDと被っていたら登録できない
 

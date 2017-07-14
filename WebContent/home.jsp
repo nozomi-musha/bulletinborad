@@ -58,21 +58,19 @@
 
 
 <br>
-<form action="index" method="get">
-
-	<select name="categories">
+<form action="index.jsp" method="get">
+<label>カテゴリー</label>
+	<select name="category">
 			<optgroup label="カテゴリーを選択"></optgroup>
+ 			<option value=></option>
 			<c:forEach items="${categories}" var="category">
 				<option value="${category}">${category}
-				</option>
 			</c:forEach>
 		</select>
 
 
 <label>日付 <input type="date" name="start"></label>
-
-<br>
-<label>日付 <input type="date" name="end"></label>
+<label> ～ <input type="date" name="end"></label>
 <input type="submit" value="検索">
 </form>
 <br>
@@ -127,7 +125,7 @@
 
 
 
-			<c:if test="${user.positionId==2}">
+			<c:if test="${user.positionId==2 || user.id==message.userId || user.positionId==3 && message.branchId==user.branchId}">
 			<form action="dropcomment" method="post">
 				<INPUT type="hidden" name="commentId" value="${comment.id}">
 				 <input type="submit" value="コメント削除">
@@ -140,12 +138,6 @@
 
 
 		</c:forEach>
-
-
-
-
-
-
 
 	</div>
 </body>
