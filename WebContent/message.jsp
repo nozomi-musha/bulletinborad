@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>新規投稿</title>
 </head>
 
@@ -25,21 +26,34 @@
 </div>
 
 
+<!-- 入力フォーム -->
 
-<form action="message" method="post"><br />
+	<form action="message" method="post">
 
-	<label for = "title">タイトル</label>
-	<input name = "title" value = "${title}" id ="title"/><br />
-
-		<label for = "text">テキスト</label>
-	<input name = "text" value = "${text}" id ="text"/><br />
-
-			<label for = "">カテゴリー</label>
-	<input name = "category" value = "${category}" id ="category"/><br />
-<br>
-
-	<input type="submit" value="登録" /> <br />
-
+<table class="table5" border=1>
+ <tr><td> <label for="title">タイトル </label> </td><td> <input name="title" value="${title}" id="title" /> </td></tr>
+ <tr><td> <label for="category">カテゴリー</label> </td><td> <input name="category" value="${category}" id="category" /> </td></tr>
+ <tr><td> <label for="text">テキスト </label></td><td>
+ <textarea name="text" rows="4" cols="40" id="text">${text}</textarea> </td></tr>
+</table>
+<br> <input type="button" onclick="submit();" value="送信" />
 </form>
+
+
+
+<!--  	<form action="message" method="post">
+		<br /> <label for="title">タイトル </label>
+		<input name="title" value="${title}" id="title" /><br> <br>
+
+			<label for="category">カテゴリー</label>
+		<input name="category" value="${category}" id="category" /> <br><br>
+
+
+		<label for="text">テキスト </label>
+		<textarea name="text" rows="4" cols="40" id="text">${text}</textarea>
+		<br> <input type="button" onclick="submit();" value="送信" />
+
+	</form> -->
+
 </body>
 </html>

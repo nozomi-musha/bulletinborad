@@ -52,7 +52,7 @@ public class CommentServlet extends HttpServlet {
 			comments.setBranchId(user.getBranchId());
 
 
-System.out.println(Integer.parseInt(request.getParameter("messageId")));
+			System.out.println(Integer.parseInt(request.getParameter("messageId")));
 
 
 			new CommentService().register(comments);
@@ -73,6 +73,11 @@ System.out.println(Integer.parseInt(request.getParameter("messageId")));
 		if (StringUtils.isEmpty(comment) == true) {
 			messages.add("コメントを入力してください");
 		}
+
+		if (!(comment.length() <= 500)) {
+			messages.add("コメントは500文字以下で入力してください。");
+		}
+
 
 		if (messages.size() == 0) {
 			return true;

@@ -41,6 +41,10 @@ public class HomeServlet extends HttpServlet {
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
 
+		request.setAttribute("selectCategory", category);
+		request.setAttribute("selectStart", start);
+		request.setAttribute("selectEnd", end);
+
 
 		System.out.println(category);
 

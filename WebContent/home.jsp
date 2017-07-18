@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ホーム</title>
 <script type="text/javascript">
 	function stop() {
@@ -30,12 +31,11 @@
 			return false;
 		}
 	}
-
 </script>
 </head>
 <body>
-	<div class="main-contents">
 
+	<div class="message">
 
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
@@ -47,98 +47,105 @@
 			</div>
 			<c:remove var="errorMessages" scope="session" />
 		</c:if>
+</div>
+
+	<div class="main-contents">
 
 
+	<div class="menu">
+			<c:out value="${user.name}" /> <a href="message">新規投稿</a> <a href="userlist">ユーザー管理</a> <a href="logout">ログアウト</a>
+		</div>
 
+		<br>
 
-<a href="message">新規投稿</a>  <a href="login">ログイン</a>  <a href="userlist">ユーザー管理</a>
-		<a href="logout">ログアウト</a> <br>
+		<div class="search">
+			<form action="index.jsp" method="get">
 
-<c:out value="${user.name}"></c:out>
-
-
-<br>
-<form action="index.jsp" method="get">
 <label>カテゴリー</label>
 	<select name="category">
 			<optgroup label="カテゴリーを選択"></optgroup>
  			<option value=></option>
 			<c:forEach items="${categories}" var="category">
-				<option value="${category}">${category}
+				<option value="${category}" <c:if test= "${category == selectCategory}">selectef</c:if>>${category}</option>
 			</c:forEach>
 		</select>
 
 
-<label>日付 <input type="date" name="start"></label>
-<label> ～ <input type="date" name="end"></label>
+<label>日付 <input type="date" name="start" value="${selectStart}"></label>
+<label> ～ <input type="date" name="end" value="${selectEnd}"></label>
 <input type="submit" value="検索">
 </form>
-<br>
-
-
-		<c:forEach items="${userMessage}" var="message">
-			<c:out value="[${message.title}]" />
-			<c:out value="${message.category}" />
-			<br>
-			<c:out value="${message.text}" />
-			<br>
-			<c:out value="${message.name}" />
-			<br>
-			<c:out value="${message.createdAt}" />
 
 
 
-			<c:if test="${user. positionId==2 || user.id==message.userId || user.positionId==3 && message.branchId==user.branchId}">
-			<form action="dropmessage" method="post">
-				<INPUT type="hidden" name="messageId" value="${message.messageId}">
-				<input type="submit" value="投稿削除">
-			</form>
-			</c:if>
+
+		</div>
+
+		<br>
 
 
-			<div class="comment-form">
+			<c:forEach items="${userMessage}" var="message">
+			<div class="message">
 
-				<form action="comment" method="post">
-
-					<label for="comment">コメント</label><br> <input name="comment"
-						value="${comments.text}" id="comment" />500字以内でコメントを入力<br />
-
-					<!--裏でmessageIdの取得  -->
-
-					<INPUT type="hidden" name="messageId" value="${message.messageId}">
-
-					<br /> <input type="submit" value="投稿">
-
-				</form>
-
-			</div>
-
-
-			<c:forEach items="${userComments}" var="comment">
-				<c:if test="${comment.messageId == message.messageId}">
-
-					<c:out value="${comment.text}" />
-					<c:out value="${comment.userName}" />
+				<div>
+					<c:out value="${message.category}" />
+					<c:out value="${message.title}" />
 					<br>
-					<c:out value="${comment.createdAt}" />
+					<c:out value="${message.text}" />
 					<br>
+					<c:out value="${message.name}" />
+					<c:out value="${message.createdAt}" />
+
+			<c:if test="${user.positionId==2 || user.id==message.userId || (user.positionId==3 && message.branchId==user.branchId)}">
+						<form action="dropmessage" method="post">
+							<INPUT type="hidden" name="messageId"
+								value="${message.messageId}"> <input type="submit"
+								value="投稿削除">
+						</form>
+					</c:if>
+				</div>
+				<div class="comment-form">
+					<form action="comment" method="post">
+
+						<label for="comment">コメント</label><br> <input name="comment"
+							value="${comments.text}" id="comment" />500字以内でコメントを入力<br />
 
 
 
-			<c:if test="${user.positionId==2 || user.id==message.userId || user.positionId==3 && message.branchId==user.branchId}">
-			<form action="dropcomment" method="post">
-				<INPUT type="hidden" name="commentId" value="${comment.id}">
-				 <input type="submit" value="コメント削除">
 
-			</form>
-			</c:if>
-			</c:if>
-		</c:forEach>
+						<!--裏でmessageIdの取得  -->
 
+						<INPUT type="hidden" name="messageId" value="${message.messageId}">
+
+						<br /> <input type="button" onclick="submit();" value="コメントする" />
+					</form>
+				</div>
 
 
-		</c:forEach>
+				<div>
+					<c:forEach items="${userComments}" var="comment">
 
-	</div>
+
+						<c:if test="${comment.messageId == message.messageId}">
+
+							<c:out value="${comment.text}" />
+							<c:out value="${comment.userName}" />
+							<br>
+							<c:out value="${comment.createdAt}" />
+							<br>
+
+			<c:if test="${user.positionId==2 || user.id==comment.userId || (user.positionId==3 && comment.branchId==user.branchId)}">
+								<form action="dropcomment" method="post">
+									<INPUT type="hidden" name="commentId" value="${comment.id}">
+									<input type="submit" value="コメント削除">
+								</form>
+							</c:if>
+						</c:if>
+					</c:forEach>
+				</div>
+				</div>
+			</c:forEach>
+		</div>
+
 </body>
 </html>

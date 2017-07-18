@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ユーザー新規登録</title>
 </head>
 <body>
@@ -65,7 +66,12 @@
 
 <br>
 
-	<input type="submit" value="登録" /> <br />
+	    <input type="button" onclick="submit();" value="登録" />
+ <br />
 </form>
+
+	<a href="userlist">戻る</a>
+
 </body>
+
 </html>

@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+/*新規投稿入力フォームテーブル*/
+.main-contents {
+	float: center;
+	width: 1000px;
+	background-color: #ffffff;
+	margin: 0 auto;
+}
+
+.menu {
+	width: 700px;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	margin: 0 auto;
+	text-align: right;
+}
+
+.search {
+	width: 700px;
+	background-color: #ffffff;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.message {
+	width: 700px;
+	background-color: #ffffff;
+	margin: 30px auto;
+	border: 1px solid #cccccc;
+	padding: 5px;
+}
+
+.comment-form {
+	width: 700px;
+	background-color: #eafdfd;
+	margin: 0 auto;
+}

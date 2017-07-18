@@ -30,31 +30,39 @@ public class EditServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		String userId = request.getParameter("userId");
+		String strUser =  (request.getParameter("userId"));
+
+
 
 		List<String> messages = new ArrayList<String>();
 
 		HttpSession session = request.getSession();
 
-		//urlで不正なページに飛ばさない
-		if (userId == null) {
+
+		//URLで不正なページに飛ばさない
+		if (strUser == null) {
 			messages.add("不正なパラメーターです");
 			session.setAttribute("errorMessages", messages);
-			request.getRequestDispatcher("userlist").forward(request, response);
+			response.sendRedirect("userlist");
+			return;
 		}
 
-		if (!(userId.matches("^\\d+$"))){
+		if (!(strUser.matches("\\d{1,}"))){
 			messages.add("不正なパラメーターです");
 			session.setAttribute("errorMessages", messages);
-			request.getRequestDispatcher("userlist").forward(request, response);
+			response.sendRedirect("userlist");
+			return;
 		}
+
+		int userId = (Integer.parseInt(request.getParameter("userId")));
 
 		User user = new UserService().getUser(userId);
 
 		if (user == null) {
 			messages.add("不正なパラメーターです");
 			session.setAttribute("errorMessages", messages);
-			request.getRequestDispatcher("userlist").forward(request, response);
+			response.sendRedirect("userlist");
+			return;
 		}
 
 		request.setAttribute("user", user);
@@ -123,50 +131,58 @@ public class EditServlet extends HttpServlet {
 			messages.add("ログインIDを入力してください");
 		}
 
-		if (!password.isEmpty()) {
-			if (password.matches("\\w{6,20}")){
-				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください1");
-			}else if(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+${6,20}")) {
-				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください2");
-			}
-		}else if(StringUtils.isEmpty(confirmation) == true) {
+		if (StringUtils.isEmpty(name) == true) {
+			messages.add("名前を入力してください");
+		}
+
+		if (StringUtils.isEmpty(password) == true) {
+			messages.add("パスワードを入力してください");
+		}
+		if (!(password.matches("^[a-zA-Z0-9]{6,20}$"))) {
+			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
+		}
+//			if (password.matches("\\w{6,20}")){
+//				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください1");
+//			}else if(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+${6,20}")) {
+//				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください2");
+//			}
+		 if(StringUtils.isEmpty(confirmation) == true) {
 			messages.add("パスワードの確認を入力してください");
-		}else if (!(password == confirmation) == true) {
+		 }
+		if (!(password == confirmation) == true) {
 			messages.add("確認パスワードが一致しません");
+		}
+
+		if (StringUtils.isEmpty(branchId) == true) {
+			messages.add("支店名を選択してください");
+		}
+
+		if (StringUtils.isEmpty(positionId) == true) {
+			messages.add("役職を選択してください");
+		}
+
+		//branchとpositionありえない組み合わせは登録できない
+
+		if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+			messages.add("ありえない組み合わせです");
+		}
+
+
+		//既存のIDと被っていたら登録できない
+		UserService userService = new UserService();
+		User  user = userService.getUser(loginId);
+
+		if (user != null) {
+			messages.add("既に登録されているIDです");
 		}
 
 
 
-	if (StringUtils.isEmpty(branchId) == true) {
-		messages.add("支店名を選択してください");
+
+		if (messages.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-
-	if (StringUtils.isEmpty(positionId) == true) {
-		messages.add("役職を選択してください");
-	}
-
-	//branchとpositionありえない組み合わせは登録できない
-
-	if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
-		messages.add("ありえない組み合わせです");
-	}
-
-
-	//既存のIDと被っていたら登録できない
-	UserService userService = new UserService();
-	User  user = userService.getUser(loginId);
-
-	if (user != null) {
-		messages.add("既に登録されているIDです");
-	}
-
-
-
-
-	if (messages.size() == 0) {
-		return true;
-	} else {
-		return false;
-	}
-}
 }

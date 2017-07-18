@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ホーム</title>
 
 <title>TAG index Webサイト</title>
@@ -59,35 +60,21 @@
 
 		<br>
 
+
+<table class="table3" border=1>
+ <tr><th>支店</th><th>役職</th><th>名前</th><th>ログインID</th><th>編集</th><th>アカウント</th></tr>
+
 		<c:forEach items="${users}" var="user">
-			<c:out value="${user.name}" />
-			<br>
-			<c:out value="${user.loginId}" />
-
-			<c:forEach items="${branches}" var="branch">
-				<c:if test="${user.branchId == branch.id}">
-					<c:out value="${branch.name}" />
-				</c:if>
-			</c:forEach>
 
 
-			<br>
-			<c:forEach items="${positions}" var="position">
-				<c:if test="${user.positionId == position.id}">
-					<c:out value="${position.name}" />
-				</c:if>
-			</c:forEach>
 
-
-			<p>
-			<form action="edit" method="get">
-				<INPUT type="hidden" name="userId" value="${user.id}"> <input
-					type="submit" value="編集">
-			</form>
-			<body>
-
-				<!-- アカウントの停止 -->
-				<c:if test="${user.isStopped==0}">
+ <tr><td><c:forEach items="${branches}" var="branch"><c:if test="${user.branchId == branch.id}"><c:out value="${branch.name}" /></c:if></c:forEach></td>
+ <td><c:forEach items="${positions}" var="position"><c:if test="${user.positionId == position.id}"><c:out value="${position.name}" /></c:if></c:forEach></td>
+ <td><c:out value="${user.name}" /></td>
+ <td><c:out value="${user.loginId}" />  </td>
+ <td><form action="edit" method="get"><INPUT type="hidden" name="userId" value="${user.id}"> <input type="submit" value="編集"></form></td>
+ <td>
+ <c:if test="${user.isStopped==0}">
 
 					<form action="isstopped" method="post" onSubmit="return stop()">
 
@@ -113,10 +100,16 @@
 					</form>
 
 				</c:if>
+				</td></tr>
 
+
+
+</c:forEach>
+</table>
+
+</div>
 			</body>
-		</c:forEach>
 
-	</div>
+	<a href="index.jsp">戻る</a>
 </body>
 </html>

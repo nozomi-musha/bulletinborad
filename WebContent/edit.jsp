@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ユーザー情報の編集</title>
 </head>
 <body>
@@ -57,8 +58,11 @@
 			</c:forEach>
 
 
-		</select> <br /> <input type="submit" value="投稿">
+		</select> <br />    <input type="button" onclick="submit();" value="編集する" />
+
 
 
 	</form>
+		<a href="userlist">戻る</a>
+
 </body>
