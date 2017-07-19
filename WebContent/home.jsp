@@ -33,6 +33,17 @@
 		}
 	}
 
+	function logout() {
+
+		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+		if (window.confirm('コメントを削除しますか？')) {
+			return true;
+		} else {
+			window.alert('キャンセルされました'); // 警告ダイアログを表示
+			return false;
+		}
+	}
+
 </script>
 </head>
 <body>
@@ -68,7 +79,7 @@
 			<optgroup label="カテゴリーを選択"></optgroup>
  			<option value=></option>
 			<c:forEach items="${categories}" var="category">
-				<option value="${category}" <c:if test= "${category == selectCategory}">selectef</c:if>>${category}</option>
+				<option value="${category}" <c:if test= "${category == selectCategory}">selected</c:if>>${category}</option>
 			</c:forEach>
 		</select>
 
@@ -98,11 +109,14 @@
 					<br>
 					<c:out value="${message.createdAt}" />
 
+										<c:out value="${user.name}" />
+
+
 			<c:if test="${user.positionId==2 || user.id==message.userId || (user.positionId==3 && message.branchId==user.branchId)}">
 						<form action="dropmessage" method="post" onSubmit="return editMessage()">
 							<INPUT type="hidden" name="messageId"
 								value="${message.messageId}"> <input type="submit"
-								value="投稿削除">
+								value="削除">
 						</form>
 					</c:if>
 				</div>
@@ -110,7 +124,8 @@
 					<form action="comment" method="post">
 
 						<label for="comment">コメント</label><br>
-						<textarea name="comment" rows="4" cols="80">${comments.text}</textarea><br>
+						<textarea name="comment" rows="4" cols="80">${comments.text}</textarea>
+						<br>
 						 500字以内でコメントを入力<br />
 
 
@@ -119,7 +134,7 @@
 
 						<INPUT type="hidden" name="messageId" value="${message.messageId}">
 
-						<br /> <input type="button" onclick="submit();" value="コメントする" />
+						<br /> <input type="button" onclick="submit();" value="投稿" />
 					</form>
 				</div>
 
@@ -139,7 +154,7 @@
 			<c:if test="${user.positionId==2 || user.id==comment.userId || (user.positionId==3 && comment.branchId==user.branchId)}">
 								<form action="dropcomment" method="post" onSubmit="return editComment()">
 									<INPUT type="hidden" name="commentId" value="${comment.id}">
-									<input type="submit" value="コメント削除">
+									<input type="submit" value="削除">
 								</form>
 							</c:if>
 						</c:if>

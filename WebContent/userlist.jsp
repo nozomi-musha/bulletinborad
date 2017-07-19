@@ -74,7 +74,7 @@
  <td><form action="edit" method="get"><INPUT type="hidden" name="userId" value="${user.id}"> <input type="submit" value="編集"></form></td>
  <td>
  <c:if test="${user.isStopped==0}">
-
+<c:if test="${user.positionId !=2}">
 					<form action="isstopped" method="post" onSubmit="return stop()">
 
 						<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
@@ -85,7 +85,7 @@
 
 					</form>
 				</c:if>
-
+</c:if>
 
 				<!-- 停止していたアカウントを復活 -->
 				<c:if test="${user.isStopped == 1}">
@@ -93,7 +93,7 @@
 						<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
 							type="hidden" name="isStopped" value="${user.isStopped}">
 						<p>
-							<input type="submit" value="復活">
+							<input type="submit" value="復活する">
 						</p>
 
 					</form>

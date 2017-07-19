@@ -52,18 +52,13 @@ public class CommentServlet extends HttpServlet {
 			comments.setBranchId(user.getBranchId());
 
 
-//			System.out.println(Integer.parseInt(request.getParameter("messageId")));
-
-
-
 			new CommentService().register(comments);
 
 			response.sendRedirect("./");
 
 		} else {
-			//			String s = request.getParameter("name");
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("home.jsp");
+			response.sendRedirect("./");
 		}
 	}
 

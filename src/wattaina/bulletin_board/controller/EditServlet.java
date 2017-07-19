@@ -41,14 +41,14 @@ public class EditServlet extends HttpServlet {
 
 		//URLで不正なページに飛ばさない
 		if (strUser == null) {
-			messages.add("不正なパラメーターです");
+			messages.add("不正なアクセスです");
 			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("userlist");
 			return;
 		}
 
 		if (!(strUser.matches("\\d{1,}"))){
-			messages.add("不正なパラメーターです");
+			messages.add("不正なアクセスです");
 			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("userlist");
 			return;
@@ -59,7 +59,7 @@ public class EditServlet extends HttpServlet {
 		User user = new UserService().getUser(userId);
 
 		if (user == null) {
-			messages.add("不正なパラメーターです");
+			messages.add("不正なアクセスです");
 			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("userlist");
 			return;

@@ -47,31 +47,30 @@ public class MessageServlet extends HttpServlet {
 			System.out.println(user.getId());
 
 			Message message = new Message();
-			message.setTitle(request.getParameter("title"));
+			message.setTitle(request.getParameter("titltitlee"));
 			message.setCategory(request.getParameter("category"));
 			message.setText(request.getParameter("text"));
 			message.setUserId(user.getId());
+
+			request.setAttribute("message", message);
 
 			new MessageService().register(message);
 
 			response.sendRedirect("./");
 
 		} else {
-			//			String s = request.getParameter("name");
+
 			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("message");
-			//			request.setAttribute("user", user);
-			//			request.getRequestDispatcher("signup.jsp").forward(request, response);
-
 		}
 	}
+
+
 
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
 		String title = request.getParameter("title");
 		String text = request.getParameter("text");
 		String category = request.getParameter("category");
-
-
 
 
 		if (StringUtils.isEmpty(title) == true) {

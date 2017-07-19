@@ -45,9 +45,6 @@ public class HomeServlet extends HttpServlet {
 		request.setAttribute("selectStart", start);
 		request.setAttribute("selectEnd", end);
 
-
-		System.out.println(category);
-
 		if ( start == null || start.isEmpty()) {
 			start = "2017-07-01";
 		}
@@ -80,6 +77,7 @@ public class HomeServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("loginUser");
+
 		request.setAttribute("user", user);
 
 
