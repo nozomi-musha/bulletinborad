@@ -9,11 +9,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ホーム</title>
+
 <script type="text/javascript">
-	function stop() {
+	function editMessage() {
 
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
-		if (window.confirm('アカウントを停止しますか？')) {
+		if (window.confirm('投稿を削除しますか？')) {
 			return true;
 		} else {
 			window.alert('キャンセルされました'); // 警告ダイアログを表示
@@ -21,16 +22,17 @@
 		}
 	}
 
-	function working() {
+	function editComment() {
 
 		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
-		if (window.confirm('アカウントを復活しますか？')) {
+		if (window.confirm('コメントを削除しますか？')) {
 			return true;
 		} else {
 			window.alert('キャンセルされました'); // 警告ダイアログを表示
 			return false;
 		}
 	}
+
 </script>
 </head>
 <body>
@@ -88,16 +90,16 @@
 			<div class="message">
 
 				<div>
+
 					<c:out value="${message.category}" />
 					<c:out value="${message.title}" />
 					<br>
 					<c:out value="${message.text}" />
 					<br>
-					<c:out value="${message.name}" />
 					<c:out value="${message.createdAt}" />
 
 			<c:if test="${user.positionId==2 || user.id==message.userId || (user.positionId==3 && message.branchId==user.branchId)}">
-						<form action="dropmessage" method="post">
+						<form action="dropmessage" method="post" onSubmit="return editMessage()">
 							<INPUT type="hidden" name="messageId"
 								value="${message.messageId}"> <input type="submit"
 								value="投稿削除">
@@ -107,9 +109,9 @@
 				<div class="comment-form">
 					<form action="comment" method="post">
 
-						<label for="comment">コメント</label><br> <input name="comment"
-							value="${comments.text}" id="comment" />500字以内でコメントを入力<br />
-
+						<label for="comment">コメント</label><br>
+						<textarea name="comment" rows="4" cols="80">${comments.text}</textarea><br>
+						 500字以内でコメントを入力<br />
 
 
 
@@ -135,7 +137,7 @@
 							<br>
 
 			<c:if test="${user.positionId==2 || user.id==comment.userId || (user.positionId==3 && comment.branchId==user.branchId)}">
-								<form action="dropcomment" method="post">
+								<form action="dropcomment" method="post" onSubmit="return editComment()">
 									<INPUT type="hidden" name="commentId" value="${comment.id}">
 									<input type="submit" value="コメント削除">
 								</form>
@@ -145,6 +147,7 @@
 				</div>
 				</div>
 			</c:forEach>
+
 		</div>
 
 </body>

@@ -129,27 +129,28 @@ public class EditServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(loginId) == true) {
 			messages.add("ログインIDを入力してください");
+
+		} else if (!(loginId.matches("[a-zA-Z0-9]{6,20}"))) {
+			messages.add("ログインIDは半角英数6文字以上20文字以下で入力してください");
 		}
+
 
 		if (StringUtils.isEmpty(name) == true) {
 			messages.add("名前を入力してください");
 		}
 
+
 		if (StringUtils.isEmpty(password) == true) {
 			messages.add("パスワードを入力してください");
+
+		} else if (!(password.matches("^[a-zA-Z0-9]{6,20}$"))) {
+			messages.add("パスワードは半角英数字6～20字で入力してください");
+
 		}
-		if (!(password.matches("^[a-zA-Z0-9]{6,20}$"))) {
-			messages.add("パスワードは記号を含む半角英数字6～20字で入力してください");
-		}
-//			if (password.matches("\\w{6,20}")){
-//				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください1");
-//			}else if(password.matches("^[ -/:-@\\[-\\`\\{-\\~]+${6,20}")) {
-//				messages.add("パスワードは記号を含む半角英数字6～20字で入力してください2");
-//			}
-		 if(StringUtils.isEmpty(confirmation) == true) {
+
+		if(StringUtils.isEmpty(confirmation) == true) {
 			messages.add("パスワードの確認を入力してください");
-		 }
-		if (!(password == confirmation) == true) {
+		} else if (!(password == confirmation) == true) {
 			messages.add("確認パスワードが一致しません");
 		}
 
@@ -159,12 +160,8 @@ public class EditServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
-		}
-
-		//branchとpositionありえない組み合わせは登録できない
-
-		if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
-			messages.add("ありえない組み合わせです");
+		} else if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+			messages.add("支店と役職がありえない組み合わせです");
 		}
 
 
@@ -172,11 +169,17 @@ public class EditServlet extends HttpServlet {
 		UserService userService = new UserService();
 		User  user = userService.getUser(loginId);
 
-		if (user != null) {
+
+
+
+
+		int editId = (Integer.parseInt(request.getParameter("userId")));
+
+
+		if (user != null && editId !=user.getId()) {
+
 			messages.add("既に登録されているIDです");
 		}
-
-
 
 
 		if (messages.size() == 0) {

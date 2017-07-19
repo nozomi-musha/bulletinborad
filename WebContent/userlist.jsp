@@ -8,9 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="./css/style.css" rel="stylesheet" type="text/css">
-<title>ホーム</title>
+<title>ユーザー一覧</title>
 
-<title>TAG index Webサイト</title>
 
 <script type="text/javascript">
 	function stop() {
@@ -81,7 +80,7 @@
 						<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
 							type="hidden" name="isStopped" value="${user.isStopped}">
 						<p>
-							<input type="submit" value="停止">
+							<input type="submit" value="停止する">
 						</p>
 
 					</form>
