@@ -23,6 +23,7 @@ import wattaina.bulletin_board.service.BranchService;
 import wattaina.bulletin_board.service.CommentService;
 import wattaina.bulletin_board.service.PositionService;
 import wattaina.bulletin_board.service.UserMessageService;
+import wattaina.bulletin_board.service.UserService;
 
 @WebServlet(urlPatterns = {"/index.jsp"})
 public class HomeServlet extends HttpServlet {
@@ -68,18 +69,22 @@ public class HomeServlet extends HttpServlet {
 		List<Comment> userComments = new CommentService().getComment();
 		request.setAttribute("userComments", userComments);
 
+		//ユーザー情報の表示
+		List<User> users = new UserService().getUsers();
+		request.setAttribute("users", users);
+
+		System.out.println(users);
+
 		//削除権限
 		List<Branch> branches = new BranchService().getBranches();
 		request.setAttribute("branches", branches);
 		List<Position> positions = new PositionService().getPositions();
 		request.setAttribute("positions", positions);
 
-
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("loginUser");
 
 		request.setAttribute("user", user);
-
 
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 

@@ -38,77 +38,88 @@
 </head>
 <body>
 
-<div class="main-contents">
-	<c:if test="${ not empty errorMessages }">
-		<div class="errorMessages">
-			<ul>
-				<c:forEach items="${errorMessages}" var="message">
-					<li><c:out value="${message}" />
-				</c:forEach>
-			</ul>
-		</div>
-		<c:remove var="errorMessages" scope="session"/>
-
-	</c:if>
-</div>
-
 	<div class="main-contents">
+		<c:if test="${ not empty errorMessages }">
+			<div class="errorMessages">
+				<ul>
+					<c:forEach items="${errorMessages}" var="message">
+						<li><c:out value="${message}" />
+					</c:forEach>
+				</ul>
+			</div>
+			<c:remove var="errorMessages" scope="session" />
 
-<a href="signup">新規ユーザー登録</a>
-
-
-		<br>
-
-
-<table class="table3" border=1>
- <tr><th>支店</th><th>役職</th><th>名前</th><th>ログインID</th><th>編集</th><th>アカウント</th></tr>
-
-		<c:forEach items="${users}" var="user">
-
-
-
- <tr><td><c:forEach items="${branches}" var="branch"><c:if test="${user.branchId == branch.id}"><c:out value="${branch.name}" /></c:if></c:forEach></td>
- <td><c:forEach items="${positions}" var="position"><c:if test="${user.positionId == position.id}"><c:out value="${position.name}" /></c:if></c:forEach></td>
- <td><c:out value="${user.name}" /></td>
- <td><c:out value="${user.loginId}" />  </td>
- <td><form action="edit" method="get"><INPUT type="hidden" name="userId" value="${user.id}"> <input type="submit" value="編集"></form></td>
- <td>
- <c:if test="${user.isStopped==0}">
-<c:if test="${user.positionId !=2}">
-					<form action="isstopped" method="post" onSubmit="return stop()">
-
-						<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
-							type="hidden" name="isStopped" value="${user.isStopped}">
-						<p>
-							<input type="submit" value="停止する">
-						</p>
-
-					</form>
-				</c:if>
-</c:if>
-
-				<!-- 停止していたアカウントを復活 -->
-				<c:if test="${user.isStopped == 1}">
-					<form action="isstopped" method="post" onSubmit="return working()">
-						<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
-							type="hidden" name="isStopped" value="${user.isStopped}">
-						<p>
-							<input type="submit" value="復活する">
-						</p>
-
-					</form>
-
-				</c:if>
-				</td></tr>
+		</c:if>
+	</div>
 
 
 
-</c:forEach>
-</table>
+		<a href="signup">新規ユーザー登録</a> <br>
 
-</div>
-			</body>
+<table>
+  <tr>
+    <th class="t_top">支店</th>
+    <th class="t_top">役職</th>
+    <th class="t_top">名前</th>
+    <th class="t_top">ログインID</th>
+    <th class="t_top">編集</th>
+    <th class="t_top">アカウント</th>
+  </tr>
 
-	<a href="index.jsp">戻る</a>
+			<c:forEach items="${users}" var="user">
+
+
+					<tr>
+						<td class="t_line01"><c:forEach items="${branches}"
+								var="branch">
+								<c:if test="${user.branchId == branch.id}">
+									<c:out value="${branch.name}" />
+								</c:if>
+							</c:forEach></td>
+						<td class="t_line01"><c:forEach items="${positions}"
+								var="position">
+								<c:if test="${user.positionId == position.id}">
+									<c:out value="${position.name}" />
+								</c:if>
+							</c:forEach></td>
+
+						<td class="t_line01"><c:out value="${user.name}" /></td>
+						<td class="t_line01"><c:out value="${user.loginId}" /></td>
+						<td class="t_line01"><form action="edit" method="get"><input type="hidden" name="userId" value="${user.id}"> <input
+								type="submit" class="edit_btn" value="編集">
+						</form></td>
+							<td class="t_line01"><c:if test="${user.isStopped==0}">
+							<c:if test="${user.positionId !=1 || user.id != loginUser.id}">
+								<form action="isstopped" method="post" onSubmit="return stop()">
+
+									<INPUT type="hidden" name="userId" value="${user.id}">
+									<INPUT type="hidden" name="isStopped" value="${user.isStopped}">
+									<p>
+										<input type="submit" class="stop_btn" value="停止する">
+									</p>
+								</form>
+							</c:if>
+						</c:if>
+						 <!-- 停止していたアカウントを復活 --> <c:if test="${user.isStopped == 1}">
+
+							<form action="isstopped" method="post"
+								onSubmit="return working()">
+								<INPUT type="hidden" name="userId" value="${user.id}"> <INPUT
+									type="hidden" name="isStopped" value="${user.isStopped}">
+								<p>
+									<input type="submit" class="cure_btn" value="復活する">
+								</p>
+
+							</form>
+
+						</c:if></td>
+					</tr>
+					</c:forEach>
+				</table>
+
+
+</body>
+
+<a href="index.jsp">戻る</a>
 </body>
 </html>

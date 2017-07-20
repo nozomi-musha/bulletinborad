@@ -24,20 +24,18 @@
 
 	</c:if>
 </div>
-<a href="">戻る</a>
+<a href="./">戻る</a>
 
 <!-- 入力フォーム -->
 
 	<form action="message" method="post">
 
 
-<table class="table5" border=1>
- <tr><td> <label for="title">タイトル </label> </td><td> <input name="title" value="${message.title}" id="title"/>30文字以内 </td></tr>
- <tr><td> <label for="category">カテゴリー</label> </td><td> <input name="category" value="${message.category}" id="category" /> 10文字以内</td></tr>
- <tr><td> <label for="text">テキスト </label></td><td>
- <textarea name="text" rows="4" cols="40" id="text">${message.text}</textarea> 1000文字以内</td></tr>
-</table>
-<br> <input type="button" onclick="submit();" value="投稿する" />
+ <label for="title">タイトル </label>  <input name="title" value="${messages.title}" id="title"/> 30文字以内<br>
+  <label for="category">カテゴリー</label>  <input name="category" value="${messages.category}" id="category" /> 10文字以内<br>
+ <label for="text">テキスト </label>
+ <textarea name="text" rows="4" cols="80" id="text">${messages.text}</textarea><br> 1000文字以内
+<br> <input type="button" onclick="submit();" value="投稿" />
 </form>
 
 

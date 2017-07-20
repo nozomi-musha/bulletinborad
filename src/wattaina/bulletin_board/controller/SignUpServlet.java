@@ -136,7 +136,7 @@ public class SignUpServlet extends HttpServlet {
 		}
 
 		if  (branchId.equals("1") && (!(positionId.equals("1") || positionId.equals("2")))) {
-			messages.add("支店と役職がありえない組み合わせです");
+			messages.add("支店と役職の組み合わせが正しくありません");
 		}
 
 

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import wattaina.bulletin_board.beans.Branch;
 import wattaina.bulletin_board.beans.Position;
@@ -24,26 +25,22 @@ public class UserListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-//		User user = (User) request.getSession().getAttribute("loginUser");
-
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
+		request.setAttribute("loginUser", user);
 
 		List<User> users = new UserService().getUsers();
 
 		request.setAttribute("users", users);
 
-
 		List<Branch> branches = new BranchService().getBranches();
 		request.setAttribute("branches", branches);
-
-
 
 		List<Position> positions = new PositionService().getPositions();
 		request.setAttribute("positions", positions);
 
 
 		request.getRequestDispatcher("userlist.jsp").forward(request, response);
-
-
 	}
 }
 

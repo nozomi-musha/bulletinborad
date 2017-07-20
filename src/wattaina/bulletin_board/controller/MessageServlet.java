@@ -35,33 +35,27 @@ public class MessageServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 
 		List<String> messages = new ArrayList<String>();
-
-
 		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
+		Message message = new Message();
+		message.setTitle(request.getParameter("title"));
+		message.setCategory(request.getParameter("category"));
+		message.setText(request.getParameter("text"));
+		message.setUserId(user.getId());
+
+
 		if (isValid(request, messages) == true) {
 
-
-			User user = (User) session.getAttribute("loginUser");
-			//			System.out.println(request.getParameter("name"));
-
-			System.out.println(user.getId());
-
-			Message message = new Message();
-			message.setTitle(request.getParameter("titltitlee"));
-			message.setCategory(request.getParameter("category"));
-			message.setText(request.getParameter("text"));
-			message.setUserId(user.getId());
-
-			request.setAttribute("message", message);
 
 			new MessageService().register(message);
 
 			response.sendRedirect("./");
 
 		} else {
-
 			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("message");
+			request.setAttribute("messages", message);
+			request.getRequestDispatcher("message.jsp").forward(request, response);
+
 		}
 	}
 

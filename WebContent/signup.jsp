@@ -10,65 +10,73 @@
 </head>
 <body>
 
-<div class="main-contents">
-	<c:if test="${ not empty errorMessages }">
-		<div class="errorMessages">
-			<ul>
-				<c:forEach items="${errorMessages}" var="message">
-					<li><c:out value="${message}" />
-				</c:forEach>
-			</ul>
-		</div>
-		<c:remove var="errorMessages" scope="session"/>
+	<div class="main-contents">
+		<c:if test="${ not empty errorMessages }">
+			<div class="errorMessages">
+				<ul>
+					<c:forEach items="${errorMessages}" var="message">
+						<li><c:out value="${message}" />
+					</c:forEach>
+				</ul>
+			</div>
+			<c:remove var="errorMessages" scope="session" />
 
-	</c:if>
-</div>
+		</c:if>
+	</div>
 
-<form action="signup" method="post"><br />
+	<form action="signup" method="post">
+		<br />
+		<table class="type03">
+			<tr>
+				<th scope="row"><label for="loginId">ログインID</label></th>
+				<td><input name="loginId" value="${user.loginId}" id="loginId" />半角英数字6文字以上20文字以下</td>
+			</tr>
 
-	<label for = "loginId">ログインID</label>
-	<input name = "loginId" value = "${user.loginId}" id ="loginId"/>半角英数字6文字以上20文字以下<br />
+			<tr>
+				<th scope="row"><label for="password">パスワード</label></th>
+				<td><input name="password" type="password" id="password" />半角英数字6文字以上20文字以下</td>
+			</tr>
 
+			<tr>
+				<th scope="row"><label for="confirmation	">パスワード確認</label></th>
+				<td><input name="confirmation" type="password"
+					id="confirmation" /></td>
+			</tr>
 
-	<label for = "password">パスワード</label>
-	<input name = "password" type = "password" id = "password"/>半角英数字6文字以上20文字以下 <br />
+			<tr>
+				<th scope="row"><label for="name">名前</label></th>
+				<td><input name="name" value="${user.name}" id="name" />10文字以内
+					<br /></td>
+			</tr>
 
-	<label for = "confirmation	">パスワード確認</label>
-	<input name = "confirmation"  type ="password" id = "confirmation"/> <br />
+			<tr>
+				<th scope="row">支店名</th>
+				<td><select name="branchId">
+						<optgroup label="支店を選択"></optgroup>
+						<c:forEach items="${branches}" var="branch">
+							<option value="${branch.id }"
+								<c:if test="${user.branchId==branch.id}">selected</c:if>><c:out
+									value="${branch.name}" /></option>
+						</c:forEach>
+				</select></td>
+			</tr>
+			<tr>
 
-<!--   passwordと入力されたconfirmationを比較して合っていなかったらエラー -->
+				<th scope="row">役職名</th>
 
-	<label for="name">名前</label>
-	<input name="name" value = "${user.name}" id="name"/>10文字以内 <br />
+				<td><select name="positionId">
+						<optgroup label="役職を選択"></optgroup>
+						<c:forEach items="${positions}" var="position">
+							<option value="${position.id }"
+								<c:if test="${user.positionId==position.id}">selected</c:if>>
+								<c:out value="${position.name}" /></option>
+						</c:forEach>
+				</select> <br /></td>
 
-
-
-	<select name="branchId">
-			<optgroup label="支店を選択"></optgroup>
-			<c:forEach items="${branches}" var="branch">
-				<option value="${branch.id }"
-					<c:if test="${user.branchId==branch.id}">selected</c:if>><c:out
-						value="${branch.name}" /></option>
-			</c:forEach>
-		</select>
-
-
-		<select name="positionId">
-			<optgroup label="役職を選択"></optgroup>
-			<c:forEach items="${positions}" var="position">
-				<option value="${position.id }"
-					<c:if test="${user.positionId==position.id}">selected</c:if>>
-					<c:out value="${position.name}" /></option>
-			</c:forEach>
-		</select> <br />
-
-
-
-<br>
-
-	    <input type="button" onclick="submit();" value="登録" />
- <br />
-</form>
+			</tr>
+		</table>
+		<br> <input type="button" onclick="submit();"  class="submit_btn" value="登録" /> <br />
+	</form>
 
 	<a href="userlist">戻る</a>
 

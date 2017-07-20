@@ -25,45 +25,63 @@
 	</div>
 
 	<form action="edit" method="post">
-
-
 		<br /> <INPUT type="hidden" name="userId" value="${user.id}">
+		<table class="type03">
+			<tr>
+				<th scope="row"><label for="loginId">ログインID</label></th>
+				<td><input name="loginId" value="${user.loginId}" id="loginId" />半角英数字6文字以上20文字以下</td>
+			</tr>
 
-		<label for="loginId">ログインID</label> <input name="loginId" value="${user.loginId}" id="loginId" />半角英数字6文字以上20文字以下 <br />
-		<label for="password">パスワード</label> <input name="password" type="password"id="password" />半角英数字6文字以上20文字以下<br />
-		 <label for="confirmation	">パスワード確認</label>
-		 <input name="confirmation" type="password" id="confirmation" /> <br />
+			<tr>
+				<th scope="row"><label for="password">パスワード</label></th>
+				<td><input name="password" type="password" id="password" />半角英数字6文字以上20文字以下</td>
+			</tr>
+
+			<tr>
+				<th scope="row"><label for="confirmation	">パスワード確認</label></th>
+				<td><input name="confirmation" type="password"
+					id="confirmation" /></td>
+			</tr>
+
+			<tr>
+				<th scope="row"><label for="name">名前</label></th>
+				<td><input name="name" value="${user.name}" id="name" />10文字以内</td>
+			</tr>
+
+			<tr>
+				<th scope="row">支店名</th>
+				<td><select name="branchId">
+						<optgroup label="支店を選択"></optgroup>
+						<c:forEach items="${branches}" var="branch">
+							<option value="${branch.id }"
+								<c:if test="${user.branchId==branch.id}">selected</c:if>>
+								<c:out value="${branch.name}" /></option>
+						</c:forEach>
+				</select></td>
+			</tr>
+
+			<tr>
+				<th scope="row">項目名</th>
+				<td><select name="positionId">
+						<optgroup label="役職を選択"></optgroup>
+						<c:forEach items="${positions}" var="position">
+							<option value="${position.id }"
+								<c:if test="${user.positionId==position.id}">selected</c:if>>
+								<c:out value="${position.name}" /></option>
+						</c:forEach>
+				</select></td>
+			</tr>
+		</table>
 
 
-		<!--   passwordと入力されたconfirmationを比較して合っていなかったらエラー -->
 
 
-		<label for="name">名前</label> <input name="name" value="${user.name}"id="name" />10文字以内 <br />
 
-
-		<select name="branchId">
-			<optgroup label="支店を選択"></optgroup>
-			<c:forEach items="${branches}" var="branch">
-				<option value="${branch.id }"
-					<c:if test="${user.branchId==branch.id}">selected</c:if>>
-					<c:out value="${branch.name}" /></option>
-			</c:forEach>
-
-
-		</select> <select name="positionId">
-			<optgroup label="役職を選択"></optgroup>
-			<c:forEach items="${positions}" var="position">
-				<option value="${position.id }"
-					<c:if test="${user.positionId==position.id}">selected</c:if>>
-					<c:out value="${position.name}" /></option>
-			</c:forEach>
-
-
-		</select> <br />    <input type="button" onclick="submit();" value="編集する" />
+		<br /> <input type="button" onclick="submit();" class="submit_btn" value="編集" />
 
 
 
 	</form>
-		<a href="userlist">戻る</a>
+	<a href="userlist">戻る</a>
 
 </body>

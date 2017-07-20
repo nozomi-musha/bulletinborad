@@ -161,7 +161,7 @@ public class EditServlet extends HttpServlet {
 		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
 		} else if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
-			messages.add("支店と役職がありえない組み合わせです");
+			messages.add("支店と役職の組み合わせが正しくありません");
 		}
 
 

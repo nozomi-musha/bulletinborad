@@ -32,8 +32,8 @@ public class  UserMessageDao {
 
 			ps = connection.prepareStatement(sql);
 
-			ps.setString(1, start + " 00:00");
-			ps.setString(2, end  + " 23:59");
+			ps.setString(1, start + " 00:00:00");
+			ps.setString(2, end  + " 23:59:59");
 
 			if (!(category == null || category.isEmpty())) {
 				ps.setString(3, category);
@@ -62,7 +62,7 @@ public class  UserMessageDao {
 				int messageId = rs.getInt("message_id");
 				String title = rs.getString("title");
 				String category = rs.getString("category");
-				String text = rs.getString("category");
+				String text = rs.getString("text");
 				Date createdAt = rs.getDate("created_at");
 				int userId = rs.getInt("user_id");
 				String name = rs.getString("name");

@@ -10,7 +10,6 @@
 	<link href="./css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="main-contents">
 
 <div class="main-contents">
 	<c:if test="${ not empty errorMessages }">
@@ -25,14 +24,14 @@
 	</c:if>
 </div>
 <form action="login" method="post"><br />
-	<label for="login_id">ログインID</label>
+	<label for="login_id">ログインID</label><br>
 	<input name="login_id" id="login_id"/> <br />
 
-	<label for="password">パスワード</label>
+	<label for="password">パスワード</label><br>
 	<input name="password" type="password" id="password"/> <br />
 
-	<input type="submit" value="ログイン" /> <br />
+	<input type="submit" class="submit_btn" value="ログイン" /> <br />
 </form>
-</div>
+
 </body>
 </html>
