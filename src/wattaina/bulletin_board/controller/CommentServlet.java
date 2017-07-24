@@ -17,8 +17,6 @@ import wattaina.bulletin_board.beans.Comment;
 import wattaina.bulletin_board.beans.User;
 import wattaina.bulletin_board.service.CommentService;
 
-
-
 @WebServlet(urlPatterns = { "/comment" })
 public class CommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,32 +30,22 @@ public class CommentServlet extends HttpServlet {
 
 
 		HttpSession session = request.getSession();
+
+		User user = (User) session.getAttribute("loginUser");
+		Comment comments = new Comment();
+		comments.setText(request.getParameter("comment"));
+		comments.setUserId(user.getId());
+		comments.setUserName(user.getName());
+		comments.setMessageId(Integer.parseInt(request.getParameter("messageId")));
+		comments.setPositionId(user.getPositionId());
+		comments.setBranchId(user.getBranchId());
+
 		if (isValid(request, messages) == true) {
-
-
-			//			System.out.println(request.getParameter("name"));
-
-			//			System.out.println(comment);
-
-			//ここでユーザー情報ゲットする？？？id.position_id.branch_id
-
-			User user = (User) session.getAttribute("loginUser");
-
-			Comment comments = new Comment();
-			comments.setText(request.getParameter("comment"));
-			comments.setUserId(user.getId());
-			comments.setUserName(user.getName());
-			comments.setMessageId(Integer.parseInt(request.getParameter("messageId")));
-			comments.setPositionId(user.getPositionId());
-			comments.setBranchId(user.getBranchId());
-
-
 			new CommentService().register(comments);
-
 			response.sendRedirect("./");
-
 		} else {
 			session.setAttribute("errorMessages", messages);
+			session.setAttribute("userComment",comments);
 			response.sendRedirect("./");
 		}
 	}
@@ -65,15 +53,12 @@ public class CommentServlet extends HttpServlet {
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
 		String comment = request.getParameter("comment");
 
-
 		if (StringUtils.isEmpty(comment) == true) {
 			messages.add("コメントを入力してください");
-
 		}
 
 		if (!(comment.length() <= 500)) {
 			messages.add("コメントは500文字以下で入力してください。");
-
 		}
 
 

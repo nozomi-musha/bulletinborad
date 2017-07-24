@@ -67,7 +67,7 @@ public class SignUpServlet extends HttpServlet {
 
 			new UserService().register(user);
 
-			response.sendRedirect("./");
+			response.sendRedirect("userlist");
 
 		} else {
 			//			String s = request.getParameter("name");
@@ -82,9 +82,6 @@ public class SignUpServlet extends HttpServlet {
 			request.setAttribute("positions", positions);
 
 			request.getRequestDispatcher("signup.jsp").forward(request, response);
-			//			request.setAttribute("user", user);
-			//			request.getRequestDispatcher("signup.jsp").forward(request, response);
-
 		}
 	}
 
@@ -103,17 +100,10 @@ public class SignUpServlet extends HttpServlet {
 			messages.add("ログインIDは半角英数6文字以上20文字以下で入力してください");
 		}
 
-		if (StringUtils.isEmpty(name) == true) {
-			messages.add("名前を入力してください");
-
-		} else if (!(name.length()  <= 10)) {
-			messages.add("名前は10文字以下で入力してください。");
-		}
-
 		if (StringUtils.isEmpty(password) == true) {
 			messages.add("パスワードを入力してください");
 		} else if (!(password.matches("^[a-zA-Z0-9]{6,20}$"))) {
-			messages.add("パスワードは半角英数字6～20字で入力してください");
+			messages.add("パスワードは半角英数字6～20字以下で入力してください");
 		}
 
 		if (StringUtils.isEmpty(confirmation) == true) {
@@ -123,6 +113,12 @@ public class SignUpServlet extends HttpServlet {
 			messages.add("確認パスワードが一致しません");
 		}
 
+		if (StringUtils.isEmpty(name) == true) {
+			messages.add("名前を入力してください");
+
+		} else if (!(name.length()  <= 10)) {
+			messages.add("名前は10文字以内で入力してください");
+		}
 
 		if (StringUtils.isEmpty(branchId) == true) {
 			messages.add("支店名を選択してください");
@@ -132,7 +128,7 @@ public class SignUpServlet extends HttpServlet {
 		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
 		} else if ((!branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
-			messages.add("支店と役職がありえない組み合わせです");
+			messages.add("支店と役職の組み合わせが正しくありません");
 		}
 
 		if  (branchId.equals("1") && (!(positionId.equals("1") || positionId.equals("2")))) {

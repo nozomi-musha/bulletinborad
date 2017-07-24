@@ -7,8 +7,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="./css/style.css" rel="stylesheet" type="text/css">
 <title>ユーザー情報の編集</title>
+
+<script type="text/javascript">
+	function edit_btn() {
+
+		// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+		if (window.confirm('この内容で登録しますか？')) {
+			return true;
+		} else {
+			window.alert('キャンセルされました'); // 警告ダイアログを表示
+			return false;
+		}
+	}
+</script>
 </head>
 <body>
+
+<div class="menu">
+
+<div align="center"><font size=15><c:out value="ユーザー編集"/></font></div></div>
+<div align="left"><a href="./">ホーム</a> <a href="userlist">ユーザー管理</a></div>
+
 
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
@@ -24,32 +43,33 @@
 		</c:if>
 	</div>
 
-	<form action="edit" method="post">
+	<form action="edit" method="post" onSubmit="return edit_btn()">
 		<br /> <INPUT type="hidden" name="userId" value="${user.id}">
 		<table class="type03">
 			<tr>
 				<th scope="row"><label for="loginId">ログインID</label></th>
-				<td><input name="loginId" value="${user.loginId}" id="loginId" />半角英数字6文字以上20文字以下</td>
+				<td><input name="loginId" value="${user.loginId}" id="loginId" /> 半角英数字6文字以上20文字以下</td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="password">パスワード</label></th>
-				<td><input name="password" type="password" id="password" />半角英数字6文字以上20文字以下</td>
+				<td><input name="password" type="password" id="password" /> 半角英数字6文字以上20文字以下</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="confirmation	">パスワード確認</label></th>
+				<th scope="row"><label for="confirmation"> パスワード確認</label></th>
 				<td><input name="confirmation" type="password"
 					id="confirmation" /></td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="name">名前</label></th>
-				<td><input name="name" value="${user.name}" id="name" />10文字以内</td>
+				<td><input name="name" value="${user.name}" id="name" /> 10文字以内</td>
 			</tr>
 
+			<c:if test="${user.positionId !=1 || user.id != loginUser.id}">
 			<tr>
-				<th scope="row">支店名</th>
+				<th scope="row">支店</th>
 				<td><select name="branchId">
 						<optgroup label="支店を選択"></optgroup>
 						<c:forEach items="${branches}" var="branch">
@@ -61,7 +81,7 @@
 			</tr>
 
 			<tr>
-				<th scope="row">項目名</th>
+				<th scope="row">役職</th>
 				<td><select name="positionId">
 						<optgroup label="役職を選択"></optgroup>
 						<c:forEach items="${positions}" var="position">
@@ -71,17 +91,11 @@
 						</c:forEach>
 				</select></td>
 			</tr>
+
+			</c:if>
 		</table>
-
-
-
-
-
-		<br /> <input type="button" onclick="submit();" class="submit_btn" value="編集" />
-
-
-
+		<br />
+		<div align="center">
+		<input type="button" onclick="submit();" class="submit_btn"  value="編集" /></div>
 	</form>
-	<a href="userlist">戻る</a>
-
 </body>

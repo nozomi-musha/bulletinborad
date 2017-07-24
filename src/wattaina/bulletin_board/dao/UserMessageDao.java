@@ -25,10 +25,12 @@ public class  UserMessageDao {
 		PreparedStatement ps = null;
 
 		try {
-			String sql = "SELECT * FROM user_message  where created_at between ? and ? ";
+			String sql = "SELECT * FROM user_message  where created_at between ? and ?" ;
 			if (!(category == null || category.isEmpty())) {
 				sql += "and category = ?";
 			}
+
+			sql += "  ORDER BY created_at DESC";
 
 			ps = connection.prepareStatement(sql);
 
@@ -63,7 +65,8 @@ public class  UserMessageDao {
 				String title = rs.getString("title");
 				String category = rs.getString("category");
 				String text = rs.getString("text");
-				Date createdAt = rs.getDate("created_at");
+				Date createdAt = rs.getTimestamp("created_at");
+
 				int userId = rs.getInt("user_id");
 				String name = rs.getString("name");
 				int branchId = rs.getInt("branch_id");

@@ -38,6 +38,13 @@
 </head>
 <body>
 
+<div class="menu">
+<div align="center"><font size=15><c:out value="ユーザー管理"/></font></div>
+</div>
+<div align="left"> <a href="./">ホーム</a> <a href="signup">新規ユーザー登録</a></div>
+
+
+
 	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
@@ -54,7 +61,7 @@
 
 
 
-		<a href="signup">新規ユーザー登録</a> <br>
+		 <br>
 
 <table>
   <tr>
@@ -120,6 +127,5 @@
 
 </body>
 
-<a href="index.jsp">戻る</a>
 </body>
 </html>

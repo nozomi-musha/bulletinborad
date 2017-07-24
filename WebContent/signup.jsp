@@ -10,7 +10,16 @@
 </head>
 <body>
 
-	<div class="main-contents">
+<div class="menu">
+<div align="center"><font size=15><c:out value="新規ユーザー登録"/></font></div>
+</div>
+
+<div align="left"><a href="./">ホーム</a> <a href="userlist">ユーザー管理</a></div>
+
+
+
+
+		<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
 				<ul>
@@ -24,33 +33,35 @@
 		</c:if>
 	</div>
 
+
+
 	<form action="signup" method="post">
 		<br />
 		<table class="type03">
 			<tr>
 				<th scope="row"><label for="loginId">ログインID</label></th>
-				<td><input name="loginId" value="${user.loginId}" id="loginId" />半角英数字6文字以上20文字以下</td>
+				<td><input name="loginId" value="${user.loginId}" id="loginId" /> 半角英数字6文字以上20文字以下</td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="password">パスワード</label></th>
-				<td><input name="password" type="password" id="password" />半角英数字6文字以上20文字以下</td>
+				<td><input name="password" type="password" id="password" /> 半角英数字6文字以上20文字以下</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="confirmation	">パスワード確認</label></th>
+				<th scope="row"><label for="confirmation	"> パスワード確認</label></th>
 				<td><input name="confirmation" type="password"
 					id="confirmation" /></td>
 			</tr>
 
 			<tr>
 				<th scope="row"><label for="name">名前</label></th>
-				<td><input name="name" value="${user.name}" id="name" />10文字以内
+				<td><input name="name" value="${user.name}" id="name" /> 10文字以内
 					<br /></td>
 			</tr>
 
 			<tr>
-				<th scope="row">支店名</th>
+				<th scope="row">支店</th>
 				<td><select name="branchId">
 						<optgroup label="支店を選択"></optgroup>
 						<c:forEach items="${branches}" var="branch">
@@ -62,7 +73,7 @@
 			</tr>
 			<tr>
 
-				<th scope="row">役職名</th>
+				<th scope="row">役職</th>
 
 				<td><select name="positionId">
 						<optgroup label="役職を選択"></optgroup>
@@ -75,10 +86,9 @@
 
 			</tr>
 		</table>
-		<br> <input type="button" onclick="submit();"  class="submit_btn" value="登録" /> <br />
+		<br><div align="center"> <input type="button" onclick="submit();"  class="submit_btn" value="登録" /></div> <br />
 	</form>
 
-	<a href="userlist">戻る</a>
 
 </body>
 

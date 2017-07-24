@@ -24,20 +24,14 @@ import wattaina.bulletin_board.service.UserService;
 public class EditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
-
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
 		String strUser =  (request.getParameter("userId"));
-
-
-
 		List<String> messages = new ArrayList<String>();
 
 		HttpSession session = request.getSession();
-
 
 		//URLで不正なページに飛ばさない
 		if (strUser == null) {
@@ -74,9 +68,7 @@ public class EditServlet extends HttpServlet {
 		request.setAttribute("positions", positions);
 
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
-
 	}
-
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -84,22 +76,27 @@ public class EditServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<String>();
 
-
 		HttpSession session = request.getSession();
 
 		User user = new User();
 		user.setId(Integer.parseInt(request.getParameter("userId")));
 		user.setLoginId(request.getParameter("loginId"));
 		user.setName(request.getParameter("name"));
-		user.setPassword(request.getParameter("password"));
+		System.out.println(user.getName());
+
+		if (!(StringUtils.isEmpty("password"))) {
+			user.setPassword(request.getParameter("password"));
+			System.out.println(user.getPassword());
+		}
+
 		user.setBranchId(Integer.parseInt(request.getParameter("branchId")));
 		user.setPositionId(Integer.parseInt(request.getParameter("positionId")));
 
 		if (isValid(request, messages) == true) {
-			System.out.println(request.getParameter("userId"));
+//			System.out.println(request.getParameter("userId"));
 			new UserService().update(user);
 
-			response.sendRedirect("./");
+			response.sendRedirect("userlist");
 
 		} else {
 			System.out.println("test");
@@ -113,9 +110,6 @@ public class EditServlet extends HttpServlet {
 			request.setAttribute("positions", positions);
 
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
-			//			request.setAttribute("user", user);
-			//			request.getRequestDispatcher("signup.jsp").forward(request, response);
-
 		}
 	}
 
@@ -134,24 +128,18 @@ public class EditServlet extends HttpServlet {
 			messages.add("ログインIDは半角英数6文字以上20文字以下で入力してください");
 		}
 
+		if ((StringUtils.isEmpty(password) != true) && (!(password.matches("^[a-zA-Z0-9]{6,20}$")))) {
+			messages.add("パスワードは半角英数字6～20字以下で入力してください");
+		}
+
+		if ((!(password.equals(confirmation)))) {
+			messages.add("確認パスワードが一致しません");
+		}
 
 		if (StringUtils.isEmpty(name) == true) {
 			messages.add("名前を入力してください");
-		}
-
-
-		if (StringUtils.isEmpty(password) == true) {
-			messages.add("パスワードを入力してください");
-
-		} else if (!(password.matches("^[a-zA-Z0-9]{6,20}$"))) {
-			messages.add("パスワードは半角英数字6～20字で入力してください");
-
-		}
-
-		if(StringUtils.isEmpty(confirmation) == true) {
-			messages.add("パスワードの確認を入力してください");
-		} else if (!(password == confirmation) == true) {
-			messages.add("確認パスワードが一致しません");
+		} else if (!(name.length()  <= 10)) {
+			messages.add("名前は10文字以内で入力してください");
 		}
 
 		if (StringUtils.isEmpty(branchId) == true) {
@@ -160,7 +148,12 @@ public class EditServlet extends HttpServlet {
 
 		if (StringUtils.isEmpty(positionId) == true) {
 			messages.add("役職を選択してください");
-		} else if (!(branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+
+		} else if ((!branchId.equals("1") && (positionId.equals("1") || positionId.equals("2")))) {
+			messages.add("支店と役職の組み合わせが正しくありません");
+		}
+
+		if  (branchId.equals("1") && (!(positionId.equals("1") || positionId.equals("2")))) {
 			messages.add("支店と役職の組み合わせが正しくありません");
 		}
 
@@ -169,18 +162,12 @@ public class EditServlet extends HttpServlet {
 		UserService userService = new UserService();
 		User  user = userService.getUser(loginId);
 
-
-
-
-
 		int editId = (Integer.parseInt(request.getParameter("userId")));
-
 
 		if (user != null && editId !=user.getId()) {
 
 			messages.add("既に登録されているIDです");
 		}
-
 
 		if (messages.size() == 0) {
 			return true;

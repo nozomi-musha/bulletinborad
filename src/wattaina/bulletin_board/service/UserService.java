@@ -109,7 +109,6 @@ public class UserService {
 		} finally {
 			close(connection);
 		}
-
 	}
 
 	//ユーザー情報の編集
@@ -121,10 +120,12 @@ public class UserService {
 		try {
 			connection = getConnection();
 
+			if(!(user.getPassword().isEmpty())){
 
-			if(user.getPassword() != null){
+				System.out.print(user.getPassword());
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				user.setPassword(encPassword);
+				System.out.println(encPassword);
 			}
 
 			UserDao userDao = new UserDao();

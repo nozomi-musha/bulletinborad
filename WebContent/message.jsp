@@ -11,6 +11,13 @@
 
 <body>
 
+
+<div class="menu">
+<div align="center"><font size=15><c:out value="新規投稿"/></font></div></div>
+
+<div align="left"><a href="./">ホーム</a></div>
+
+
 <div class="main-contents">
 	<c:if test="${ not empty errorMessages }">
 		<div class="errorMessages">
@@ -24,35 +31,30 @@
 
 	</c:if>
 </div>
-<a href="./">戻る</a>
 
+<br>
 <!-- 入力フォーム -->
+
+<div class="message_form">
 
 	<form action="message" method="post">
 
 
- <label for="title">タイトル </label>  <input name="title" value="${messages.title}" id="title"/> 30文字以内<br>
-  <label for="category">カテゴリー</label>  <input name="category" value="${messages.category}" id="category" /> 10文字以内<br>
- <label for="text">テキスト </label>
- <textarea name="text" rows="4" cols="80" id="text">${messages.text}</textarea><br> 1000文字以内
-<br> <input type="button" onclick="submit();" value="投稿" />
+
+ <p><label for="title">タイトル </label>
+ <br>
+  <input name="title" value="${messages.title}" id="title"/> 30文字以内<br><br>
+  <label for="category">カテゴリー</label>
+  <br> <input name="category" value="${messages.category}" id="category" /> 10文字以内<br><br>
+ <label for="text">テキスト </label><br>
+ <textarea name="text" rows="20" cols="80" wrap="hard">${messages.text}</textarea> 1000文字以内
+
+<br> <input type="button" onclick="submit();" class="submit_btn" value="投稿" /><br><br>
+</p>
 </form>
+</div>
 
-
-
-<!--  	<form action="message" method="post">
-		<br /> <label for="title">タイトル </label>
-		<input name="title" value="${title}" id="title" /><br> <br>
-
-			<label for="category">カテゴリー</label>
-		<input name="category" value="${category}" id="category" /> <br><br>
-
-
-		<label for="text">テキスト </label>
-		<textarea name="text" rows="4" cols="40" id="text">${text}</textarea>
-		<br> <input type="button" onclick="submit();" value="送信" />
-
-	</form> -->
 
 </body>
 </html>
+

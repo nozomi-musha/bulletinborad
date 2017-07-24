@@ -71,14 +71,14 @@ public class MessageServlet extends HttpServlet {
 			messages.add("タイトルを入力してください");
 		}
 		if (!(title.length() <= 30)) {
-			messages.add("タイトルは30文字以下で入力してください。");
+			messages.add("タイトルは30文字以内で入力してください。");
 		}
 
 		if (StringUtils.isEmpty(category) == true) {
 			messages.add("カテゴリーを入力してください");
 		}
 		if (!(category.length() <= 10)) {
-			messages.add("カテゴリーは10文字以下で入力してください。");
+			messages.add("カテゴリーは10文字以内で入力してください。");
 		}
 
 		if (StringUtils.isEmpty(text) == true) {
@@ -86,7 +86,7 @@ public class MessageServlet extends HttpServlet {
 		}
 
 		if (!(text.length() <= 1000)) {
-			messages.add("本文は1000文字以下で入力してください。");
+			messages.add("本文は1000文字以内で入力してください。");
 		}
 
 

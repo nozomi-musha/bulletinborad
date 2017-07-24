@@ -53,7 +53,7 @@ public class HomeServlet extends HttpServlet {
 		if (end == null || end.isEmpty()) {
 			Date date = new Date();
 			end = new SimpleDateFormat("yyyy-MM-dd").format(date);
-			System.out.println(end);
+//			System.out.println(end);
 		}
 
 		//		System.out.println(start);
@@ -73,7 +73,7 @@ public class HomeServlet extends HttpServlet {
 		List<User> users = new UserService().getUsers();
 		request.setAttribute("users", users);
 
-		System.out.println(users);
+//		System.out.println(users);
 
 		//削除権限
 		List<Branch> branches = new BranchService().getBranches();

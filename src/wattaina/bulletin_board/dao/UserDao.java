@@ -242,8 +242,15 @@ public class UserDao {
 			if(!user.getPassword().isEmpty()) {
 				ps.setString (5, user.getPassword());
 				ps.setInt(6, user.getId());
+
+				System.out.println("passあり");
+
+				System.out.println(ps.toString());
+
 			} else {
 				ps.setInt(5, user.getId());
+				System.out.println(ps.toString());
+
 			}
 
 

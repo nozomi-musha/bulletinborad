@@ -4,6 +4,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,37 +40,28 @@
 </script>
 
 </head>
-
 <body>
-	<div class="main-contents">
-		<c:if test="${ not empty errorMessages }">
 
-				<ul>
-					<c:forEach items="${errorMessages}" var="message">
-						<li><c:out value="${message}" /></li>
-					</c:forEach>
-				</ul>
 
-			<c:remove var="errorMessages" scope="session" />
-		</c:if>
-
-	</div>
-
-		<div class="menu">
+<h2><font size=30>わったい菜</font></h2>
 
 
 
-			<c:out value="${user.name}さん    " />
+
+
+<Div Align="left">
+			<font size=5><c:out value="${user.name}さん         " /></font>
 			<a href="message">新規投稿</a>
 			<c:if test="${user.positionId==1 }">
 				<a href="userlist">ユーザー管理</a>
 			</c:if>
 
 			<a href="logout">ログアウト</a>
-		</div>
+			</Div>
+
 		<br>
-
-
+<br>
+<br>
 
 		<div class="search">
 			<form action="index.jsp" method="get">
@@ -77,77 +70,98 @@
 					<optgroup label="カテゴリーを選択"></optgroup>
 					<option value=></option>
 					<c:forEach items="${categories}" var="category">
-						<option value="${category}"
+						<option value ="${category}"
 							<c:if test= "${category == selectCategory}">selected</c:if>>${category}</option>
 					</c:forEach>
-				</select> <label>日付 <input type="date" name="start"
+				</select>
+				<br><br>
+				<label>日付 <input type="date" name="start"
 					value="${selectStart}"></label> <label> ～ <input
 					type="date" name="end" value="${selectEnd}"></label> <input
 					type="submit" value="検索">
 			</form>
 		</div>
+
+			<div class="main-contents">
+		<c:if test="${ not empty errorMessages }">
+					<c:forEach items="${errorMessages}" var="message">
+						<Div Align="center">
+						<c:out value="${message}" />
+						</Div>
+					</c:forEach>
+			<c:remove var="errorMessages" scope="session" />
+		</c:if>
+
+
+
+	</div>
+
+
+
 		<br>
 					<c:forEach items="${userMessage}" var="message">
 
 
 
-			<div class="message">
+			<div class="message"> <!-- メッセージ、コメントの大枠 -->
 				<div>
-					<c:out value="${message.category}" /><c:out value="${message.title}" />
+
+<div class="one_message">
+
+
+			<div class="menu">
+					<font color=#0000a0 size =5>【<c:out value="${message.category}" />】</font> <font size=5><c:out value="${message.title}" /></font></div>
 					<br>
+
 					<c:forEach
 						items="${fn:split(message.text, '
                                                     ') }"
 						var="text">
 						<c:out value="${text}"></c:out>
-						<br>
+							<br>
 					</c:forEach>
 
-					<c:out value="${message.createdAt}" />
+					<Div Align="right">
+						<c:forEach items="${users}" var="user">
+							<c:if test="${message.userId==user.id}">
+								<c:out value="投稿者: ${user.name}" />
+							</c:if>
+						</c:forEach>
 
-					<c:forEach items="${users}" var="user">
+					  <fmt:formatDate value="${message.createdAt}" pattern="yyyy/MM/dd HH:mm" /><br>
 
-						<c:if test="${message.userId==user.id}">
-							<c:out value="${user.name}" />
+						<c:if test="${user.positionId==2 || user.id==message.userId || (user.positionId==3 && message.branchId==user.branchId)}">
+							<form action="dropmessage" method="post" onSubmit="return editMessage()">
+								<INPUT type="hidden" name="messageId"value="${message.messageId}"> <input type="submit" class="stop_btn" value="削除">
+							</form>
 						</c:if>
+					</Div>
 
-					</c:forEach>
-					<c:if
-						test="${user.positionId==2 || user.id==message.userId || (user.positionId==3 && message.branchId==user.branchId)}">
-						<form action="dropmessage" method="post"
-							onSubmit="return editMessage()">
-							<INPUT type="hidden" name="messageId"
-								value="${message.messageId}"> <input type="submit" class="stop_btn"
-								value="削除">
-						</form>
-					</c:if>
-				</div>
-
-
-
-				<div class="comment-form">
 					<form action="comment" method="post">
+					<Div Align="center">
+					<label for="comment">コメント(500字以内)</label></Div>
+					<Div Align="center">
+					<textarea name="comment" rows="4" cols="75" wrap="hard"><c:if test="${userComment.messageId == message.messageId}">${userComment.text}</c:if></textarea>
 
-						<label for="comment">コメント</label><br>
-						<textarea name="comment" rows="4" cols="80">${comments.text}</textarea>
-						<br> 500字以内でコメントを入力<br />
+					</Div>
 
 
 						<!--裏でmessageIdの取得  -->
-
+					<Div Align="center">
 						<INPUT type="hidden" name="messageId" value="${message.messageId}">
-
-						<br /> <input type="button" onclick="submit();" class="cure_btn" value="投稿" />
+						 <input type="button" onclick="submit();" class="cure_btn" value="投稿" />
+						 </Div>
 					</form>
+
 				</div>
-
-
-				<div>
+</div>
 					<c:forEach items="${userComments}" var="comment">
 
 
-						<c:if test="${comment.messageId == message.messageId}">
 
+
+						<c:if test="${comment.messageId == message.messageId}">
+							<div class="comment">
 							<c:forEach
 								items="${fn:split(comment.text, '
                                                     ') }"
@@ -155,10 +169,8 @@
 								<c:out value="${str}"></c:out>
 								<br>
 							</c:forEach>
-							<c:out value="${comment.userName}" />
-							<br>
-							<c:out value="${comment.createdAt}" />
-							<br>
+
+						<Div Align="right"><c:out value="投稿者: ${comment.userName}" />   <fmt:formatDate value="${comment.createdAt}" pattern="yyyy/MM/dd HH:mm" />
 							<c:if
 								test="${user.positionId==2 || user.id==comment.userId || user.positionId==3 && comment.branchId==user.branchId}">
 								<form action="dropcomment" method="post"
@@ -167,11 +179,15 @@
 									<input type="submit" class="stop_btn" value="削除">
 								</form>
 							</c:if>
+							</Div>
+							</div>
 						</c:if>
+
 					</c:forEach>
+
 				</div>
-			</div>
 		</c:forEach>
+		<c:remove var="userComment" scope="session" />
 
 </body>
 </html>
