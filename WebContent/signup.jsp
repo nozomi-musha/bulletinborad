@@ -6,20 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="./css/style.css" rel="stylesheet" type="text/css">
-<title>ユーザー新規登録</title>
+<title>新規ユーザー登録</title>
 </head>
 <body>
+	<div class="menu">
+	<div align="center"><font size=15><c:out value="新規ユーザー登録"/></font></div>
+	</div>
+		<div align="left"><a href="./">ホーム</a> <a href="userlist">ユーザー管理</a>
+		</div>
 
-<div class="menu">
-<div align="center"><font size=15><c:out value="新規ユーザー登録"/></font></div>
-</div>
-
-<div align="left"><a href="./">ホーム</a> <a href="userlist">ユーザー管理</a></div>
-
-
-
-
-		<div class="main-contents">
+	<div class="main-contents">
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
 				<ul>
@@ -28,15 +24,12 @@
 					</c:forEach>
 				</ul>
 			</div>
-			<c:remove var="errorMessages" scope="session" />
-
+				<c:remove var="errorMessages" scope="session" />
 		</c:if>
 	</div>
 
-
-
 	<form action="signup" method="post">
-		<br />
+	<br />
 		<table class="type03">
 			<tr>
 				<th scope="row"><label for="loginId">ログインID</label></th>
@@ -62,34 +55,41 @@
 
 			<tr>
 				<th scope="row">支店</th>
-				<td><select name="branchId">
+				<td>
+					<select name="branchId">
 						<optgroup label="支店を選択"></optgroup>
-						<c:forEach items="${branches}" var="branch">
-							<option value="${branch.id }"
-								<c:if test="${user.branchId==branch.id}">selected</c:if>><c:out
-									value="${branch.name}" /></option>
-						</c:forEach>
-				</select></td>
+							<c:forEach items="${branches}" var="branch">
+								<option value="${branch.id }"
+									<c:if test="${user.branchId==branch.id}">selected
+									</c:if>>
+										<c:out value="${branch.name}" />
+								</option>
+							</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
-
-				<th scope="row">役職</th>
-
-				<td><select name="positionId">
+			<th scope="row">役職</th>
+				<td>
+					<select name="positionId">
 						<optgroup label="役職を選択"></optgroup>
-						<c:forEach items="${positions}" var="position">
-							<option value="${position.id }"
-								<c:if test="${user.positionId==position.id}">selected</c:if>>
-								<c:out value="${position.name}" /></option>
-						</c:forEach>
-				</select> <br /></td>
-
+							<c:forEach items="${positions}" var="position">
+								<option value="${position.id }"
+									<c:if test="${user.positionId==position.id}">selected
+									</c:if>>
+										<c:out value="${position.name}" />
+								</option>
+							</c:forEach>
+					</select>
+					 <br />
+				</td>
 			</tr>
 		</table>
-		<br><div align="center"> <input type="button" onclick="submit();"  class="submit_btn" value="登録" /></div> <br />
+		<br>
+	<div align="center">
+		 <input type="button" onclick="submit();"  class="submit_btn" value="登録" />
+	</div>
+	 <br />
 	</form>
-
-
 </body>
-
 </html>

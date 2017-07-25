@@ -36,6 +36,5 @@
 	<input type="submit" class="submit_btn" value="ログイン" /> <br />
 </form>
 </div>
-
 </body>
 </html>
